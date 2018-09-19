@@ -134,6 +134,8 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map"),
         mapOptions);
    
+   var elevator = new.google.maps.ElevationService;		
+	
    overlay = new google.maps.OverlayView();
    overlay.draw = function() {};
    overlay.setMap(map);
