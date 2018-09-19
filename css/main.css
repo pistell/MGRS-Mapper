@@ -1,0 +1,426 @@
+
+html { 
+	height: 100%
+	}
+
+body {
+	height: 100%; 
+	margin: 0; 
+	padding: 0
+	}
+
+#map_canvas { 
+	height: 100% 
+}
+
+/*Entire Search Box */
+#usng_search {
+    height: auto;
+    position: absolute;
+    left: 10%; /*these positions absolute? */
+    /*Originally: bottom: 5%; */
+    top: 1%;
+    min-width:50%; /*this makes the div size to the page */
+    padding: 2%;
+    font-size:100%;
+    visibility: visible;
+    z-index: 50;
+    /*rounded corners below */
+    background-color:#c7d4e1;
+    -moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px; /* future proofing - end rounded corners */
+}
+
+#inputUSNGTxt,#inputAddrTxt {
+	top:5px;
+	position:relative;
+	min-width:40%;
+	visibility:visible;
+}
+
+#rdoUSNG,#inputUSNGTxt {
+	float:right;
+	margin:-10px 0 0 0;
+}
+
+#rdoAdd,#inputAddrTxt {
+	float:left;
+	margin:-10px 0 0 0;
+}
+
+#rdoAdd,#rdoUSNG {
+	padding:5px 0 0 0;
+	top:5px;
+	position:relative;
+}
+
+#coordinateInfo,#debugZlev {
+/*	float:right;
+	margin:-5px 0 0 0;*/
+}	
+
+input[type=submit] {
+	display:block;
+	position:absolute;
+	margin-left:40%;
+	margin-right:40%;
+}
+
+.about {
+	display:block;
+	margin-left:40%;
+	position:absolute;
+	margin-top:25px;
+	font-size: small;
+	text-align: center;
+}
+
+#gridcheckbox {
+	display:inline-block;
+	top:3px;
+	position:relative;
+}
+
+#drawing {
+	display:none;
+}
+
+/*MIGHT DECIDE AGAINST USING THESE */
+#searchAddLaunch,#searchUSNGLaunch {
+    height: auto;
+    position: absolute;
+    left: 7%; /*these positions absolute? */
+    top: 5%;
+    /*min-width:15%; this makes the div size to the page */
+    padding: 5px;
+    font-size:120%;
+    visibility: visible;
+    z-index: 40;
+    /*rounded corners below */
+    background-color:#c7d4e1;
+    -moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px; /* future proofing - end rounded corners */
+
+}
+
+/*Classes for USNG labels
+ * The element.style height and width on these labels is much bigger than we define with the CSS class.
+ * How can we override that?
+ *  */
+.majorGridLabel {
+	color: black;
+    background-color:#9FAAB4; /*A nice pink would be #FFCCFF */
+    -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight:bold;
+    text-align: center;
+    width: 25px;
+}
+.semiMajorGridLabel {
+    color: blue;
+    font-size: x-small;
+    opacity: 1;
+}
+.minorGridLabel {
+    color: blue;
+    font-size: x-small;
+    opacity: 0.7;
+}
+.fineGridLabel {
+    color: blue;
+    font-size: 12px;
+    opacity: 0.7;
+}
+.majorGridLabel, .semiMajorGridLabel, .minorGridLabel, .fineGridLabel {
+	text-shadow: 1px 1px 0px #ffffff,-1px -1px 0px #ffffff,1px -1px 0px #ffffff,-1px 1px 0px #ffffff;
+	font-family: Arial;
+}
+
+
+
+/* :root {
+  --mdc-theme-primary: #00aff5;
+  --mdc-theme-primary-light: #67e1ff;
+  --mdc-theme-primary-dark: #0080c2;
+  --mdc-theme-secondary: #00aff5;
+  --mdc-theme-secondary-light: #67e1ff;
+  --mdc-theme-secondary-dark: #0080c2;
+  --mdc-theme-background: #fff;
+  /* --mdc-theme-text-primary-on-primary: white;
+    --mdc-theme-text-secondary-on-primary: rgba(255, 255, 255, 0.7);
+    --mdc-theme-text-hint-on-primary: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-disabled-on-primary: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-icon-on-primary: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-primary-on-primary-light: rgba(0, 0, 0, 0.87);
+    --mdc-theme-text-secondary-on-primary-light: rgba(0, 0, 0, 0.54);
+    --mdc-theme-text-hint-on-primary-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-disabled-on-primary-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-icon-on-primary-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-primary-on-primary-dark: white;
+    --mdc-theme-text-secondary-on-primary-dark: rgba(255, 255, 255, 0.7);
+    --mdc-theme-text-hint-on-primary-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-disabled-on-primary-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-icon-on-primary-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-primary-on-secondary: white;
+    --mdc-theme-text-secondary-on-secondary: rgba(255, 255, 255, 0.7);
+    --mdc-theme-text-hint-on-secondary: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-disabled-on-secondary: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-icon-on-secondary: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-primary-on-secondary-light: rgba(0, 0, 0, 0.87);
+    --mdc-theme-text-secondary-on-secondary-light: rgba(0, 0, 0, 0.54);
+    --mdc-theme-text-hint-on-secondary-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-disabled-on-secondary-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-icon-on-secondary-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-primary-on-secondary-dark: white;
+    --mdc-theme-text-secondary-on-secondary-dark: rgba(255, 255, 255, 0.7);
+    --mdc-theme-text-hint-on-secondary-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-disabled-on-secondary-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-icon-on-secondary-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-primary-on-background: rgba(0, 0, 0, 0.87);
+    --mdc-theme-text-secondary-on-background: rgba(0, 0, 0, 0.54);
+    --mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-icon-on-background: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
+    --mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+    --mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
+    --mdc-theme-text-primary-on-dark: white;
+    --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
+    --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
+    --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);*/
+}
+
+body {
+  margin: 0px;
+}
+
+a {
+  color: #00aff5;
+}
+
+#hidden{
+  display: none;
+}
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #F5F5F6;
+  border-bottom: 1px solid #e5e5e5;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mdc-toolbar__section--align-end a {
+  margin-top: 31px;
+  margin-bottom: 31px;
+}
+
+@media not screen and (min-width: 400px) {
+  .mdc-toolbar__section--align-end {
+    display: none;
+  }
+}
+
+.custom-indicator-tab-bar .mdc-tab-bar__indicator {
+  /* @alternate */
+  background-color: #00aff5;
+  background-color: var(--mdc-theme-primary, #00aff5);
+}
+
+.content {
+  /* margin-top: 126px; */
+}
+
+.content.scroll {
+  margin-top: 378px;
+}
+
+.panels {
+  padding: 0px 20px 20px 20px;
+  margin-top: 8px;
+  margin-top: 8px
+}
+
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+.symbol {
+  height: 250px;
+  margin-left: -20px;
+  margin-right: -20px;
+  /*margin-bottom: 20px;*/
+  padding: 0.1px 0px 0px 0px;
+  transition: box-shadow 0.2s ease;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.symbol.scroll {
+  box-shadow: rgba(0, 0, 0, 0.258824) 0px 2px 5px 0px;
+  position: fixed;
+  top: -2px;
+  left: 20px;
+  right: 20px;
+  background-color: white;
+  z-index: 2;
+}
+
+.symbol svg {
+  max-width: 100%;
+  max-height: 180px;
+  /*width: auto;
+    height: auto;*/
+}
+
+.symbol img {
+  width: auto;
+  max-height: 180px;
+}
+
+.search .mdc-text-field {
+  max-width: 0px;
+  overflow: hidden;
+  transition: max-width 0.2s ease;
+}
+
+.search .mdc-text-field.active {
+  max-width: 300px;
+}
+
+.search figure {
+  pointer-events: none;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  margin-left: -0px;
+  text-align: center;
+}
+
+.search img {
+  pointer-events: none;
+  max-width: 30px;
+  max-height: 30px;
+}
+
+.search nav {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.search .mdc-list {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  background-color: white;
+  min-width: 320px;
+  z-index: 1000;
+}
+
+.mdc-select {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+h2 {
+  margin-left: 20px;
+}
+
+.option-inputs {
+  padding: 0px 20px 0px 20px;
+  margin-top: 8px;
+  vertical-align: top;
+  /*-webkit-column-width: 400px;
+    -moz-column-width: 400px;
+    column-width: 400px;*/
+}
+
+.option-inputs section {
+  width: 400px;
+  display: inline-block;
+  height: 108px;
+}
+
+.style-inputs {
+  padding: 0px 20px 0px 20px;
+  margin-top: 48px;
+  vertical-align: top;
+  /*-webkit-column-width: 400px;
+    -moz-column-width: 400px;
+    column-width: 400px;*/
+}
+
+.style-inputs section {
+  width: 330px;
+  display: inline-block;
+  height: 80px;
+  margin-right: 20px;
+}
+
+
+/*
+.mdc-select .mdc-list-item {
+    overflow-x: auto;
+}
+*/
+
+.mdc-menu__items em {
+  pointer-events: none;
+  color: var(--mdc-theme-text-icon-on-primary-light);
+  font-size: x-small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mdc-menu__items figure {
+  pointer-events: none;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  margin-left: -0px;
+  text-align: center;
+}
+
+.mdc-menu__items img {
+  pointer-events: none;
+  max-width: 30px;
+  max-height: 30px;
+}
+
+.switch {
+  width: 330px;
+  height: 68px;
+  /*margin-right: 30px;*/
+  margin-top: 5px
+}
+
+.slider {
+  /*margin-bottom: 20px;*/
+  width: 330px;
+  /*margin-right: 30px;
+    padding-right: 50px;*/
+  margin-top: 5px
+}
+
+.select {
+  /*margin-bottom: 20px;*/
+  width: 330px;
+  /*margin-right: 30px;
+    padding-right: 50px;*/
+  margin-top: 5px
+}
+
+.select .mdc-select {
+  margin-top: 4px
+} */
+
+
