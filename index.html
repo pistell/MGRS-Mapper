@@ -235,7 +235,7 @@
                 id: id++,
                 optimized: false,
                 zIndex: zIndex,
-                funcid: document.getElementsByClassName("funcid")[0].innerText.split("-").slice(-2).join() //Appends the Function ID to the infowindow for readability
+                funcid: document.getElementsByClassName("funcid")[0].innerText.split("-").slice(-2).reverse().join(", ") //Appends the Function ID to the infowindow for readability
               });
               //id++
               //markers[id] = newMarker;
