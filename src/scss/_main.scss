@@ -1,16 +1,16 @@
 
-html { 
+html {
 	height: 100%
 	}
 
 body {
-	height: 100%; 
-	margin: 0; 
+	height: 100%;
+	margin: 0;
 	padding: 0
 	}
 
-#map_canvas { 
-	height: 100% 
+#map_canvas {
+	height: 100%
 }
 
 /*Entire Search Box */
@@ -58,7 +58,7 @@ body {
 #coordinateInfo,#debugZlev {
 /*	float:right;
 	margin:-5px 0 0 0;*/
-}	
+}
 
 input[type=submit] {
 	display:block;
@@ -195,8 +195,9 @@ input[type=submit] {
     --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
     --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
     --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
-    --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);*/
+    --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
 }
+*/
 
 body {
   margin: 0px;
@@ -421,6 +422,4 @@ h2 {
 
 .select .mdc-select {
   margin-top: 4px
-} */
-
-
+}

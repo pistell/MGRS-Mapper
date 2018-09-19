@@ -1,0 +1,24 @@
+{
+  "name": "mgrs",
+  "version": "1.0.0",
+  "description": "Drop and drag NATO military symbols onto Google Maps with an MGRS overlay.",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pistell/MGRS-Mapper.git"
+  },
+  "devDependencies": {
+
+  },
+  "browserslist": [
+    "> 1%",
+    "ie > 9"
+  ],
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/pistell/MGRS-Mapper/issues"
+  },
+  "homepage": "https://github.com/pistell/MGRS-Mapper#readme"
+}

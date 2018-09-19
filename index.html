@@ -1,180 +1,152 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta name="description" content="Create maps with NATO military symbols with an MGRS overlay">
-    <meta name="author" content="James Pistell">
-    <title>MGRS Mapper</title>
-    <style type="text/css">
-      @import "css/main.css";
-    </style>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/milsymbol-unit-generator.css" type="text/css">
-    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
-    <style media="screen">
-      /*  start styles for the ContextMenu  */
-      .context_menu{
-        background-color:white;
-        border:1px solid gray;
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta name="description" content="Create maps with NATO military symbols with an MGRS overlay">
+<meta name="author" content="James Pistell">
+<title>MGRS Mapper</title>
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<link href="dist/css/app.css" rel="stylesheet">
+<style media="screen">
+  .context_menu{
+    background-color:white;
+    border:1px solid gray;
+  }
+  .context_menu_item{
+    padding:3px 6px;
+  }
+  .context_menu_item:hover{
+    background-color:#CCCCCC;
+  }
+  .context_menu_separator{
+    background-color:gray;
+    height:1px;
+    margin:0;
+    padding:0;
+  }
+  .label {
+    font-size:9px;
+    text-align:center;
+    color:#222;
+    text-shadow:0 0 5px #fff;
+    font-family:Helvetica, Arial, sans-serif;
+  }
+  .gm-style-iw{
+    width: 276px !important;
+    word-wrap: break-word;
+  }
+</style>
+<script>
+  // Polyfill for nodelist.forEach in IE
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = function (callback, thisArg) {
+      thisArg = thisArg || window;
+      for (var i = 0; i < this.length; i++) {
+        callback.call(thisArg, this[i], i, this);
       }
-      .context_menu_item{
-        padding:3px 6px;
-      }
-      .context_menu_item:hover{
-        background-color:#CCCCCC;
-      }
-      .context_menu_separator{
-        background-color:gray;
-        height:1px;
-        margin:0;
-        padding:0;
-      }
-      .label {font-size:9px; text-align:center; color:#222; text-shadow:0 0 5px #fff; font-family:Helvetica, Arial, sans-serif;}
-      /*  end styles for the ContextMenu  */
-
-      .gm-style-iw{
-  width: 276px; !important
-  word-wrap:  break-word;
-}
-    </style>
-
-
-    <script>
-        // Polyfill for nodelist.forEach in IE
-        if (window.NodeList && !NodeList.prototype.forEach) {
-            NodeList.prototype.forEach = function (callback, thisArg) {
-                thisArg = thisArg || window;
-                for (var i = 0; i < this.length; i++) {
-                    callback.call(thisArg, this[i], i, this);
-                }
-            };
-        }
-    </script>
-
-    <script src="js/vendor/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-    <!--Bootstrap to Google Maps API. Replace the key with your Google Maps key when deploying  -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsOmSefgnI4WnFNYgQXE_n5pJyPudm8zM&libraries=geometry,places&ext=.js"></script>
-    <!--Local versions of Xavier Irias scripts-->
-    <script type="text/javascript" src="js/vendor/marconistdlib.js"></script>
-    <script type="text/javascript" src="js/vendor/marconimap.js"></script>
-    <script type="text/javascript" src="js/marconiusnggraticule.js"></script>
-    <!-- Klassen USNG2.js, for UTM and Lat/Long conversions. Final document should bootstrap usng2.js from github if possible -->
-    <script type="text/javascript" src="js/vendor/usng2.js"></script>
-    <!--markers.js, for custom labels and markers-->
-    <script type="text/javascript" src="js/vendor/markers.js"></script>
-    <!--Final: basic map.js for the application-->
-    <script type="text/javascript" src="js/vendor/map.js"></script>
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="js/vendor/googleMaps.js"></script>
-    <!-- <script src="node-coordinator/coordinator.js"></script> this is the script with the MGRS Conversions */ -->
-    <script src="js/vendor/ContextMenu.js"></script>
-    <script src="js/milsymbol-unit-generator.js"></script>
-  </head>
-
-
-
-
-
-
-
- <body onload="milsymbolUnitGenerator(); initialize();" class="mdc-typography">
-      <div class="container-fluid">
-         <div class="row">
-            <div class="col-md-12">
-               <div class="jumbotron">
-                <div id="gridcheckbox"><input type="checkbox" name="gridlines" onclick="toggleGridDisp();" />Grid Lines</div>
-                  <div id="coordinateInfo"></div></br>
-
-                  <h2>
-                     Hello, world!
-                  </h2>
-                  <p>
-                     This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
-                  </p>
-                  <p>
-                     <a class="btn btn-primary btn-large" href="#">Learn more</a>
-                  </p>
-                  <div id="test"></div>
-                  <div id="array"></div>
-               </div>
-               <div class="row">
-                  <div class="col-md-8" id="map">
+    };
+  }
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsOmSefgnI4WnFNYgQXE_n5pJyPudm8zM&libraries=geometry,places&ext=.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
+<script src="src/js/vendor/marconistdlib.js"></script>
+<script src="dist/js/app.js"></script>
+<script src="src/js/milsymbol-unit-generator.js"></script>
+</head>
+<body onload="milsymbolUnitGenerator(); initialize();" class="mdc-typography">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="jumbotron">
+          <div id="gridcheckbox"><input type="checkbox" name="gridlines" onclick="toggleGridDisp();" />Grid Lines</div>
+          <div id="coordinateInfo"></div><br>
+          <h2>Hello, world!</h2>
+          <p>
+            This is a template for a simple marketing or informational website. It includes a large callout called the
+            hero unit and three supporting pieces of content. Use it as a starting point to create something more
+            unique.
+          </p>
+          <p>
+            <a class="btn btn-primary btn-large" href="#">Learn more</a>
+          </p>
+          <div id="test"></div>
+          <div id="array"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-8" id="map">
+          </div>
+          <div class="col-md-4 toolbar mdc-toolbar">
+            <section id="hidden">
+              <div class="demo-tabs__scroller">
+                <div id="tab-bar-scroller" class="mdc-tab-bar-scroller">
+                  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
+                    <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll back button">
+                      <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
+                        <path d="M0-.5h24v24H0z" fill="none" />
+                      </svg>
+                    </a>
                   </div>
-                  <div class="col-md-4 toolbar mdc-toolbar">
-                     <section id="hidden">
-                        <div class="demo-tabs__scroller">
-                           <div id="tab-bar-scroller" class="mdc-tab-bar-scroller">
-                              <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
-                                 <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll back button">
-                                    <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
-                                       <path d="M0-.5h24v24H0z" fill="none" />
-                                    </svg>
-                                 </a>
-                              </div>
-                              <div class="mdc-tab-bar-scroller__scroll-frame">
-                                 <nav id="scrollable-tab-bar" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar">
-                                    <a role="tab" aria-controls="panel-1" class="mdc-tab" href="#panel-1">MIL-STD-2525C</a>
-                                    <span class="mdc-tab-bar__indicator"></span>
-                                 </nav>
-                              </div>
-                              <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
-                                 <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll forward button">
-                                    <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
-                                       <path d="M0-.25h24v24H0z" fill="none" />
-                                    </svg>
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                     </section>
-                     <section class="content">
-                        <div class="panels">
-                           <div class="panel panel-2525c" id="panel-1" role="tabpanel" aria-hidden="true">
-                           </div>
-                        </div>
-                     </section>
-                     <div class="option-inputs">
-                        <section id="demo-text-field-wrapper">
-                           <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-                              <input type="text" class="mdc-text-field__input" id="higherFormation" maxlength="21" size="30">
-                              <label for="higherFormation" class="mdc-text-field__label">Higher Formation</label>
-                           </div>
-                           <p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-                              A text modifier for units that indicates number or title of higher echelon command (corps are designated by Roman numerals).
-                           </p>
-                        </section>
-                        <section id="demo-text-field-wrapper">
-                           <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-                              <input type="text" class="mdc-text-field__input" id="uniqueDesignation" maxlength="21" size="30">
-                              <label for="uniqueDesignation" class="mdc-text-field__label">Unique Designation</label>
-                           </div>
-                           <p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-                              A text modifier for units, equipment, and installations that uniquely identifies a particular symbol or track number. Identifies
-                              acquisitions number when used with SIGINT symbology.
-                           </p>
-                        </section>
-
-                     </div>
-                     <br>
-                     <br>
+                  <div class="mdc-tab-bar-scroller__scroll-frame">
+                    <nav id="scrollable-tab-bar" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar">
+                      <a role="tab" aria-controls="panel-1" class="mdc-tab" href="#panel-1">MIL-STD-2525C</a>
+                      <span class="mdc-tab-bar__indicator"></span>
+                    </nav>
                   </div>
-               </div>
+                  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
+                    <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll forward button">
+                      <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
+                        <path d="M0-.25h24v24H0z" fill="none" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="content">
+              <div class="panels">
+                <div class="panel panel-2525c" id="panel-1" role="tabpanel" aria-hidden="true">
+                </div>
+              </div>
+            </section>
+            <div class="option-inputs">
+              <section id="demo-text-field-wrapper">
+                <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+                  <input type="text" class="mdc-text-field__input" id="higherFormation" maxlength="21" size="30">
+                  <label for="higherFormation" class="mdc-text-field__label">Higher Formation</label>
+                </div>
+                <p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;"
+                  aria-hidden="true">
+                  A text modifier for units that indicates number or title of higher echelon command (corps are
+                  designated by Roman numerals).
+                </p>
+              </section>
+              <section id="demo-text-field-wrapper">
+                <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+                  <input type="text" class="mdc-text-field__input" id="uniqueDesignation" maxlength="21" size="30">
+                  <label for="uniqueDesignation" class="mdc-text-field__label">Unique Designation</label>
+                </div>
+                <p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;"
+                  aria-hidden="true">
+                  A text modifier for units, equipment, and installations that uniquely identifies a particular symbol
+                  or track number. Identifies
+                  acquisitions number when used with SIGINT symbology.
+                </p>
+              </section>
             </div>
-         </div>
+            <br>
+            <br>
+          </div>
+        </div>
       </div>
-
-
-
-
-
-
-      <script type="text/javascript">
+    </div>
+  </div>
+<script type="text/javascript">
     //Load symbol dragging function when Window loads
     // var markersToRemove = [];
     // var uniqueId = 1;
@@ -182,185 +154,115 @@
     var id = 0;
     var markers = [];
     iw = new google.maps.InfoWindow();
-    $(window).on('load', function(){
+    $(window).on('load', function () {
 
       //grid = new Graticule(map, true);
       //function MGRSgridOverlay(){$.ajax({url: "js/mgrs_overlay",dataType: "script",success: success});}
-      function enableSymbolDragging(){
+      function enableSymbolDragging() {
         //console.log("The Width is: " + resizedDimensions.width() + " The Height is: " + resizedDimensions.height());
         //Enable the symbol preview to start dragging
         $('.draggable').draggable({
-            revert: true,
-            stack: ".draggable",
-            helper: 'clone'
+          revert: true,
+          stack: ".draggable",
+          helper: 'clone'
         });
         //Enable the map canvas to accept the drop
         $('#map').droppable({
-            accept: ".draggable",
-            drop: function (event, ui) {
-              if (iw) iw.close(); //If there is an InfoWindow open, close it when a new element is dragged in
+          accept: ".draggable",
+          drop: function (event, ui) {
+            if (iw) iw.close(); //If there is an InfoWindow open, close it when a new element is dragged in
 
-              // if (ContextMenu.prototype.getVisible() === true){
-              //   ContextMenu.prototype.hide();
-              // }
+            var zIndex = 0;
+            var contentStr = [];
+            var droppable = $(this);
+            var draggable = ui.draggable;
+            var coordinatesOverDiv = [event.clientX - $('#map').position().left, event.clientY - $('#map').position().top];
+            // we don't want the mouse position, we want the position of the active point on the pin.
+            coordinatesOverDiv = [
+              coordinatesOverDiv[0] + activePointPin[0] - mouseStartDrag[0],
+              coordinatesOverDiv[1] + activePointPin[1] - mouseStartDrag[1]
+            ];
 
-              var zIndex = 0;
-              var contentStr = [];
-              var droppable = $(this);
-              var draggable = ui.draggable;
-              var coordinatesOverDiv = [event.clientX - $('#map').position().left, event.clientY - $('#map').position().top];
-              // we don't want the mouse position, we want the position of the active point on the pin.
-              coordinatesOverDiv = [
-                coordinatesOverDiv[0] + activePointPin[0] - mouseStartDrag[0],
-                coordinatesOverDiv[1] + activePointPin[1] - mouseStartDrag[1]
-              ];
+            // ask Google to get the position, corresponding to a pixel on the map
+            var pixelLatLng = overlay.getProjection().fromContainerPixelToLatLng(new google.maps.Point(coordinatesOverDiv[0], coordinatesOverDiv[1]));
+            // set a new marker
+            var getBase64 = $(".svg-symbol img").attr('src');
 
-              // ask Google to get the position, corresponding to a pixel on the map
-              var pixelLatLng = overlay.getProjection().fromContainerPixelToLatLng( new google.maps.Point(coordinatesOverDiv[0], coordinatesOverDiv[1]) );
-              // set a new marker
-              var getBase64 = $(".svg-symbol img").attr('src');
+            var getNewHeight = $(".svg-symbol img").attr('height'); //gets the new Symbol Height from the resizer function in milsymbol-unit-generator.js
+            var getNewWidth = $(".svg-symbol img").attr('width');
 
-              var getNewHeight = $(".svg-symbol img").attr('height'); //gets the new Symbol Height from the resizer function in milsymbol-unit-generator.js
-              var getNewWidth = $(".svg-symbol img").attr('width');
+            //resizedDimensions = resizedDimensions;
+            //image = new google.maps.MarkerImage(getBase64, null, null, null, new google.maps.Size(resizedDimensions.width(),resizedDimensions.height()));
+            image = new google.maps.MarkerImage(getBase64, null, null, null);
+            //console.log("The Width is: " + resizedDimensions.width());
+            var newMarker = new google.maps.Marker({
+              map: map,
+              position: pixelLatLng,
+              draggable: true,
+              icon: image,
+              id: id++,
+              optimized: false,
+              zIndex: zIndex,
+              funcid: document.getElementsByClassName("funcid")[0].innerText //Appends the Function ID to the infowindow for readability
+            });
+            //id++
+            //markers[id] = newMarker;
+            //console.log("var id=" + newMarker.id);
+            // newMarker.id = uniqueId;
+            // uniqueId++;
+            markers.push(newMarker);
 
-              //resizedDimensions = resizedDimensions;
-              //image = new google.maps.MarkerImage(getBase64, null, null, null, new google.maps.Size(resizedDimensions.width(),resizedDimensions.height()));
-              image = new google.maps.MarkerImage(getBase64, null, null, null);
-              //console.log("The Width is: " + resizedDimensions.width());
-              var newMarker = new google.maps.Marker({
-                map: map,
-                position: pixelLatLng,
-                draggable: true,
-                icon: image,
-                id: id++,
-                optimized: false,
-                zIndex: zIndex,
-                funcid: document.getElementsByClassName("funcid")[0].innerText //Appends the Function ID to the infowindow for readability
-              });
-              //id++
-              //markers[id] = newMarker;
-              //console.log("var id=" + newMarker.id);
-              // newMarker.id = uniqueId;
-              // uniqueId++;
-              markers.push(newMarker);
+            // var markerId = getMarkerUniqueId(newMarker.getPosition().lat(), newMarker.getPosition().lng());
+            newMarker.icon.scaledSize = new google.maps.Size(getNewWidth, getNewHeight);
+            //This var below may not be needed
+            //var theCurrentElevation = "";
+            google.maps.event.addListener(newMarker, "click", function (e) {
+              if (contextMenu) contextMenu.hide(); //Closes the Context Menu when someone clicks to open an InfoWindow
+              actual = newMarker;
+              var lat = actual.getPosition().lat();
+              var lng = actual.getPosition().lng();
+              var theCurrentLatLon = "<div class='infowindow'><h6><span style='color: red;'>Lat/Lon: <\/span>" + lat.toFixed(6) + ", " + lng.toFixed(6) + "<\/h6><\/div>";
+              //console.log(usng.LLtoUSNG(lat, lng, 5));
+              var theCurrentMGRS = "<div class='MGRS'><h6><span style='color: red;'>MGRS: <\/span>" + USNG.LLtoUSNG(lat, lng, 5) + "<\/h6><\/div>";
+              //This will send out the Lat/Lon and MGRS data into the InfoWindow
+              iw.setContent(theCurrentLatLon + theCurrentMGRS);
+              iw.open(map, this);
+              //$(this).freetrans();
+              //image.freetrans({x: 150, y: 100, 'rot-origin': '50% 100%'}).css({border: "10px solid pink"});
+            });
 
-              // var markerId = getMarkerUniqueId(newMarker.getPosition().lat(), newMarker.getPosition().lng());
-              newMarker.icon.scaledSize = new google.maps.Size(getNewWidth,getNewHeight);
-              //This var below may not be needed
-              //var theCurrentElevation = "";
-              google.maps.event.addListener(newMarker, "click", function(e) {
-                if (contextMenu) contextMenu.hide(); //Closes the Context Menu when someone clicks to open an InfoWindow
-                actual = newMarker;
-                var lat = actual.getPosition().lat();
-                var lng = actual.getPosition().lng();
-                var theCurrentLatLon = "<div class='infowindow'><h6><span style='color: red;'>Lat/Lon: <\/span>" + lat.toFixed(6) + ", " + lng.toFixed(6) + "<\/h6><\/div>";
-                //console.log(usng.LLtoUSNG(lat, lng, 5));
-                var theCurrentMGRS = "<div class='MGRS'><h6><span style='color: red;'>MGRS: <\/span>" + USNG.LLtoUSNG(lat, lng, 5) + "<\/h6><\/div>";
-                //This will send out the Lat/Lon and MGRS data into the InfoWindow
-                iw.setContent(theCurrentLatLon + theCurrentMGRS);
-                iw.open(map, this);
-                //$(this).freetrans();
-                //image.freetrans({x: 150, y: 100, 'rot-origin': '50% 100%'}).css({border: "10px solid pink"});
-              });
-
-
-
-              //This listener is only for retreiving the fucking Elevation
-              google.maps.event.addListener(newMarker, 'click', function(event) {
-                displayLocationElevation(event.latLng, elevator, iw);
-              });
-              // from https://jsfiddle.net/user2314737/j285Le70/
-              function displayLocationElevation(location, elevator, iw) {
-                // Initiate the location request
-                elevator.getElevationForLocations({
-                  'locations': [location]
-                }, function(results, status) {
-                  iw.setPosition(location);
-                  if (status === 'OK') {
-                    // Retrieve the first result
-                    if (results[0]) {
-                      //var funcid = document.getElementsByClassName("funcid")[0].innerText;
-                      var theCurrentElevation = "<div class='Elevation'><h6><span style='color: red;'>Elevation: <\/span>" + parseInt(results[0].elevation) + " meters<\/h6><\/div>";
-                      theCurrentElevation += "<br /><input type = 'button' value = 'Delete' onclick = 'DeleteMarker(" + newMarker.id + ")' value = 'Delete' />";
-                      theCurrentElevation += "<br /><h6><span style='word-break: break-all;'>" + newMarker.funcid + "</span></h6>" // Append the function ID to the unit window!
-                      //console.log("TEST: " + theCurrentElevation);
-                      //return theCurrentElevation and add it after MGRS data in the InfoWindow
-                      let elem = document.querySelector(".MGRS");
-                      elem.innerHTML = elem.innerHTML + theCurrentElevation;
-                    } else {
-                      iw.setContent('No results found');
-                    }
+            //This listener is only for retreiving the fucking Elevation
+            google.maps.event.addListener(newMarker, 'click', function (event) {
+              displayLocationElevation(event.latLng, elevator, iw);
+            });
+            // from https://jsfiddle.net/user2314737/j285Le70/
+            function displayLocationElevation(location, elevator, iw) {
+              // Initiate the location request
+              elevator.getElevationForLocations({
+                'locations': [location]
+              }, function (results, status) {
+                iw.setPosition(location);
+                if (status === 'OK') {
+                  // Retrieve the first result
+                  if (results[0]) {
+                    //var funcid = document.getElementsByClassName("funcid")[0].innerText;
+                    var theCurrentElevation = "<div class='Elevation'><h6><span style='color: red;'>Elevation: <\/span>" + parseInt(results[0].elevation) + " meters<\/h6><\/div>";
+                    theCurrentElevation += "<br /><input type = 'button' value = 'Delete' onclick = 'DeleteMarker(" + newMarker.id + ")' value = 'Delete' />";
+                    theCurrentElevation += "<br /><h6><span style='word-break: break-all;'>" + newMarker.funcid + "</span></h6>" // Append the function ID to the unit window!
+                    //console.log("TEST: " + theCurrentElevation);
+                    //return theCurrentElevation and add it after MGRS data in the InfoWindow
+                    let elem = document.querySelector(".MGRS");
+                    elem.innerHTML = elem.innerHTML + theCurrentElevation;
                   } else {
-                    iw.setContent('Elevation service failed due to: ' + status);
+                    iw.setContent('No results found');
                   }
-                });
-              }
+                } else {
+                  iw.setContent('Elevation service failed due to: ' + status);
+                }
+              });
+            }
 
-
-
-
-
-
-
-
-  // google.maps.event.addListener(newMarker, "click", function() {
-  //   // console.log("Building info window on click event.");
-  //   // mapClickListenerToggle();
-  //   //    //thismarker = newMarker; //set thismarker equal to this one so it can be deleted
-  //   //     var zLev = map.getZoom();
-  //   //   //   if (strAddress != null) {
-  //   //   //     var info_str = strAddress + '<br \/>' ;
-  //   //   //   } else {
-  //   //        var info_str = "";
-  //   //   //   }
-
-  //   //   // info_str += buildCoordString1(latlng,zLev);
-  //   //   if (debug) {
-  //   //     //launch more page
-  //   //     info_str += "<input type=\"button\" onclick=\"openMorePage(" + pixelLatLng + ");\" id=\"btnMore\" name=\"moreButton\" value=\"More\"\/>";
-  //   //   }
-
-  //   //   //include directions and a delete me button
-  //   //   info_str += "<br\/><a href=\"https:\/\/maps.google.com\/maps?daddr="+ pixelLatLng +"\" target=\"_blank\">Directions<\/a> ";
-  //   //   info_str += '<br \/><input type=\"button\" value=\"Delete marker\" onclick=removeOneMarker()>';
-
-  //   // iw.setContent(info_str);
-  //   // iw.open(map, newMarker);
-
-
-
-  //               if (contextMenu) contextMenu.hide(); //Closes the Context Menu when someone clicks to open an InfoWindow
-  //               actual = newMarker;
-  //               var lat = actual.getPosition().lat();
-  //               var lng = actual.getPosition().lng();
-  //               var theCurrentLatLon = "<div class='infowindow'><h6><span style='color: red;'>Lat/Lon: <\/span>" + lat.toFixed(6) + ", " + lng.toFixed(6) + "<\/h6><\/div>";
-  //               //console.log(usng.LLtoUSNG(lat, lng, 5));
-  //               var theCurrentMGRS = "<div class='MGRS'><h6><span style='color: red;'>MGRS: <\/span>" + USNG.LLtoUSNG(lat, lng, 5) + "<\/h6><\/div>";
-  //               //This will send out the Lat/Lon and MGRS data into the InfoWindow
-  //               iw.setContent(theCurrentLatLon + theCurrentMGRS);
-  //               iw.open(map, newMarker);
-  //               //$(this).freetrans();
-  //               //image.freetrans({x: 150, y: 100, 'rot-origin': '50% 100%'}).css({border: "10px solid pink"});
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //  });
-
-
-
-
-
-            google.maps.event.addListener(newMarker, "dragstart", function() {
+            google.maps.event.addListener(newMarker, "dragstart", function () {
               if (contextMenu) contextMenu.hide(); //Closes the Context Menu when the Marker is dragged
               actual = newMarker;
               if (actual == newMarker) iw.close();
@@ -369,107 +271,90 @@
               newMarker.setZIndex(zIndex);
             });
             //iw = new google.maps.InfoWindow();
-            google.maps.event.addListener(map, "click", function() {
+            google.maps.event.addListener(map, "click", function () {
               if (iw) iw.close(); //close the information window onclick
               if (contextMenu) contextMenu.hide(); //close the context menu on map click
             });
             // Move draggable into droppable
             draggable.clone().appendTo(droppable);
 
-
-
-            //Add marker to the array.
-             //markers.push(newMarker);
-
-
-
-            //var contextMenu = {};
-            //  create the ContextMenuOptions object
             var contextMenuOptions = {};
             contextMenuOptions.classNames = {
-              menu:'context_menu',
-              menuSeparator:'context_menu_separator'
+              menu: 'context_menu',
+              menuSeparator: 'context_menu_separator'
             };
 
-            //  create an array of ContextMenuItem objects
+            // create an array of ContextMenuItem objects
             var menuItems = [];
             menuItems.push({
-              className:'context_menu_item',
-              eventName:'zoom_in_click',
-              label:'Zoom in'
+              className: 'context_menu_item',
+              eventName: 'zoom_in_click',
+              label: 'Zoom in'
             });
             menuItems.push({
-              className:'context_menu_item',
-              eventName:'zoom_out_click',
-              label:'Zoom out'
+              className: 'context_menu_item',
+              eventName: 'zoom_out_click',
+              label: 'Zoom out'
             });
 
             menuItems.push({
-              className:'context_menu_item delme',
-              eventName:'delete_map_marker',
-              label:'Delete'
+              className: 'context_menu_item delme',
+              eventName: 'delete_map_marker',
+              label: 'Delete'
             });
 
             //  a menuItem with no properties will be rendered as a separator
             menuItems.push({});
             menuItems.push({
-              className:'context_menu_item',
-              eventName:'center_map_click',
-              label:'Center map here'
+              className: 'context_menu_item',
+              eventName: 'center_map_click',
+              label: 'Center map here'
             });
             contextMenuOptions.menuItems = menuItems;
 
             //  create the ContextMenu object
-
-              var contextMenu = new ContextMenu(map, contextMenuOptions);
-
-
-
+            var contextMenu = new ContextMenu(map, contextMenuOptions);
 
             //  display the ContextMenu on a Map right click
-            google.maps.event.addListener(newMarker, 'rightclick', function(mouseEvent){
-                  contextMenu.show(mouseEvent.latLng);
-                  //return contextMenu;
+            google.maps.event.addListener(newMarker, 'rightclick', function (mouseEvent) {
+              contextMenu.show(mouseEvent.latLng);
+              //return contextMenu;
             });
 
             //  listen for the ContextMenu 'menu_item_selected' event
-            google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
+            google.maps.event.addListener(contextMenu, 'menu_item_selected', function (latLng, eventName) {
               //  latLng is the position of the ContextMenu
               //  eventName is the eventName defined for the clicked ContextMenuItem in the ContextMenuOptions
-              switch(eventName){
+              switch (eventName) {
                 case 'zoom_in_click':
-                  map.setZoom(map.getZoom()+1);
+                  map.setZoom(map.getZoom() + 1);
                   break;
                 case 'zoom_out_click':
-                  map.setZoom(map.getZoom()-1);
+                  map.setZoom(map.getZoom() - 1);
                   break;
                 case 'center_map_click':
                   map.panTo(latLng);
                   break;
-                  case 'delete_map_marker':
+                case 'delete_map_marker':
                   //window.markers[0].setMap(null);
                   //THIS IS THE ONLY SHIT THAT WORKS!
                   for (i = 0; i < markers.length; i++) {
-                       google.maps.event.addListener(markers[i], 'click', function() {
-                           this.setMap(null);
-                      });
-                   }
-                 }
-
-
+                    google.maps.event.addListener(markers[i], 'click', function () {
+                      this.setMap(null);
+                    });
+                  }
+              }
             });
-
           }
-      });
-    };
+        });
+      };
       enableSymbolDragging(); //run the function when the page loads
-
 
       //Start an event listener on the right sidebar and look for MUTATATIONS
       //This will re-enable the drag function during any DOM change
       var listenNodes = document.querySelector('.mdc-toolbar');
-      var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
+      var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
           if (mutation.type == "attributes") {
             //Run the function if there is any DOM mutations on the right sidebar
             enableSymbolDragging();
@@ -480,26 +365,22 @@
         attributes: true,
         subtree: true,
       });
-  });
+    });
 
-
-  //Delete the marker by ID
-  function DeleteMarker(id) {
+    //Delete the marker by ID
+    function DeleteMarker(id) {
       for (var i = 0; i < markers.length; i++) {
-          // SECOND CHANGE
-          if (markers[i].id == id) {
-              // THIRD CHANGE
-              //console.log("This ID: " + this.marker.id);
-              //markers[i].setMap(null);
-              markers[i].setMap(null);
-              markers.splice(i, -1);
-              return;
-          }
+        // SECOND CHANGE
+        if (markers[i].id == id) {
+          // THIRD CHANGE
+          //console.log("This ID: " + this.marker.id);
+          //markers[i].setMap(null);
+          markers[i].setMap(null);
+          markers.splice(i, -1);
+          return;
+        }
       }
-  }
-
-
-
-    </script>
-  </body>
+    }
+</script>
+</body>
 </html>
