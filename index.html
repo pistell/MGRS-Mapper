@@ -282,7 +282,7 @@
                       //var funcid = document.getElementsByClassName("funcid")[0].innerText;
                       var theCurrentElevation = "<div class='Elevation'><h6><span style='color: red;'>Elevation: <\/span>" + parseInt(results[0].elevation) + " meters<\/h6><\/div>";
                       theCurrentElevation += "<br /><input type = 'button' value = 'Delete' onclick = 'DeleteMarker(" + newMarker.id + ")' value = 'Delete' />";
-                      theCurrentElevation += "<br /><h6><span style='word-break: break-all;'>" + newMarker.funcid + "</span></h6>" // Append the function ID to the unit window!
+                      theCurrentElevation += "<br /><h6>" + newMarker.funcid + "</h6>" // Append the function ID to the unit window!
                       //console.log("TEST: " + theCurrentElevation);
                       //return theCurrentElevation and add it after MGRS data in the InfoWindow
                       let elem = document.querySelector(".MGRS");
