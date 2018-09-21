@@ -1,16 +1,16 @@
 
-html { 
+html {
 	height: 100%
 	}
 
 body {
-	height: 100%; 
-	margin: 0; 
+	height: 100%;
+	margin: 0;
 	padding: 0
 	}
 
-#map_canvas { 
-	height: 100% 
+#map_canvas {
+	height: 100%
 }
 
 /*Entire Search Box */
@@ -58,7 +58,7 @@ body {
 #coordinateInfo,#debugZlev {
 /*	float:right;
 	margin:-5px 0 0 0;*/
-}	
+}
 
 input[type=submit] {
 	display:block;
@@ -78,7 +78,7 @@ input[type=submit] {
 
 #gridcheckbox {
 	display:inline-block;
-	top:3px;
+	top:10px;
 	position:relative;
 }
 
@@ -258,13 +258,43 @@ a {
 }
 
 .symbol {
-  height: 250px;
+  height: 150px;
   margin-left: -20px;
   margin-right: -20px;
   /*margin-bottom: 20px;*/
   padding: 0.1px 0px 0px 0px;
   transition: box-shadow 0.2s ease;
   border-bottom: 1px solid #e5e5e5;
+}
+
+a.png{
+	position: absolute;
+	top: 0;
+	right: 14%;
+}
+a.svg{
+	position: absolute;
+	top: 0;
+	right: 4%;
+}
+
+@media screen and (max-width: 1600px) {
+	a.svg {
+	display: none;
+	}
+	a.png{
+		display: none;
+	}
+}
+/* Makes the Download buttons dissappear when screen is below 1600px. Need to rework this */
+
+.jumboImg {
+	float: left;
+	padding: 0px 20px 0px 0px;
+}
+.jumbotron{
+	margin-bottom: 0.5rem !important;
+  margin-top: 0.5rem;
 }
 
 .symbol.scroll {
@@ -352,11 +382,15 @@ h2 {
 
 .style-inputs {
   padding: 0px 20px 0px 20px;
-  margin-top: 48px;
+  margin-top: 10px;
   vertical-align: top;
   /*-webkit-column-width: 400px;
     -moz-column-width: 400px;
     column-width: 400px;*/
+}
+
+div#coordinateInfo {
+    padding-top: 10px;
 }
 
 .style-inputs section {
@@ -364,15 +398,90 @@ h2 {
   display: inline-block;
   height: 80px;
   margin-right: 20px;
+	display: contents;
 }
 
+.box{
+	display: flex;
+	justify-content: space-between;
+}
+.md-checkbox {
+  position: relative;
+  /* margin: 1em 0; */
+  text-align: left;
+}
+.md-checkbox.md-checkbox-inline {
+  display: inline-block;
+}
+.md-checkbox label {
+  cursor: pointer;
+  display: inline;
+  line-height: 1.25em;
+  vertical-align: top;
+  clear: both;
+  padding-left: 1px;
+}
+.md-checkbox label:not(:empty) {
+  padding-left: 0.75em;
+}
+.md-checkbox label:before, .md-checkbox label:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.md-checkbox label:before {
+  width: 1.25em;
+  height: 1.25em;
+  background: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.54);
+  border-radius: 0.125em;
+  cursor: pointer;
+  transition: background .3s;
+}
+.md-checkbox input[type="checkbox"] {
+  outline: 0;
+  visibility: hidden;
+  width: 1.25em;
+  margin: 0;
+  display: block;
+  float: left;
+  font-size: inherit;
+}
+.md-checkbox input[type="checkbox"]:checked + label:before {
+  background: #337ab7;
+  border: none;
+}
+.md-checkbox input[type="checkbox"]:checked + label:after {
+  transform: translate(0.25em, 0.3365384615em) rotate(-45deg);
+  width: 0.75em;
+  height: 0.375em;
+  border: 0.125em solid #fff;
+  border-top-style: none;
+  border-right-style: none;
+}
+.md-checkbox input[type="checkbox"]:disabled + label:before {
+  border-color: rgba(0, 0, 0, 0.26);
+}
+.md-checkbox input[type="checkbox"]:disabled:checked + label:before {
+  background: rgba(0, 0, 0, 0.26);
+}
 
 /*
 .mdc-select .mdc-list-item {
     overflow-x: auto;
 }
 */
-
+a.btn.btn-primary.btn-large {
+    font-size: 20px;
+    /* padding-left: 6px; */
+}
+p.dragAndDropNotification {
+    /* display: table; */
+    text-align: center;
+    font-family: monospace;
+    color: #9e9e9ead;
+}
 .mdc-menu__items em {
   pointer-events: none;
   color: var(--mdc-theme-text-icon-on-primary-light);
@@ -421,6 +530,7 @@ h2 {
 
 .select .mdc-select {
   margin-top: 4px
-} */
-
-
+}
+.mdc-toolbar{
+	border-top-right-radius: .3rem;
+}
