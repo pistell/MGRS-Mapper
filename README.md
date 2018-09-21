@@ -39,6 +39,7 @@ Open index.html in your text editor and replace Google Map's API key with your o
 - [ ] Icon preview window should be a fixed div to enable viewing when the user scrolls down
 - [ ] Icon generator sidebar should be able to be hidden on command to enable more screen for the map
 - [ ] MGRS grid lines might be too thin to notice, consider making them stand out more
+- [ ] Minify JS
 
 
 ## Built With

@@ -1,31 +1,31 @@
-var mouseStartDrag=[0,0];
-var newMarker;
-var activePointPin = [47,128];  // = bottom center of the pin.  Change this value if the pin is changed
-var map;
-var overlay;
-var iw;
-var canvasLayer;
-var resolutionScale = window.devicePixelRatio || 1;
-//var contextMenu;
-
-// // Google Maps
-// function initialize() {
-//   var mapOptions = {
-//     zoom: 8,
-//     center: new google.maps.LatLng(50.5, 4.5),  // Over Belgium
-//     mapTypeId: google.maps.MapTypeId.TERRAIN
-//   };
-//   map = new google.maps.Map(document.getElementById('map'), mapOptions);
-//   // this overlay will be used to calculate mouse coordinates to Lat/Lng
-   overlay = new google.maps.OverlayView();
-   overlay.draw = function() {};
-   overlay.setMap(map);
-//   // Create ElevationService
-  
-
-// }
-// initialize();
-elevator = new google.maps.ElevationService();
+// var mouseStartDrag=[0,0];
+// var newMarker;
+// var activePointPin = [47,128];  // = bottom center of the pin.  Change this value if the pin is changed
+// var map;
+// var overlay;
+// var iw;
+// var canvasLayer;
+// var resolutionScale = window.devicePixelRatio || 1;
+// //var contextMenu;
+//
+// // // Google Maps
+// // function initialize() {
+// //   var mapOptions = {
+// //     zoom: 8,
+// //     center: new google.maps.LatLng(50.5, 4.5),  // Over Belgium
+// //     mapTypeId: google.maps.MapTypeId.TERRAIN
+// //   };
+// //   map = new google.maps.Map(document.getElementById('map'), mapOptions);
+// //   // this overlay will be used to calculate mouse coordinates to Lat/Lng
+//    overlay = new google.maps.OverlayView();
+//    overlay.draw = function() {};
+//    overlay.setMap(map);
+// //   // Create ElevationService
+//
+//
+// // }
+// // initialize();
+// elevator = new google.maps.ElevationService();
 //USN.JS BELOW *****************************************************************
 //USN.JS BELOW *****************************************************************
 //USN.JS BELOW *****************************************************************
