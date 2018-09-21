@@ -534,3 +534,6 @@ p.dragAndDropNotification {
 .mdc-toolbar{
 	border-top-right-radius: .3rem;
 }
+.mdc-menu.mdc-select__menu.mdc-menu--open {
+	right: 0rem;	
+}
