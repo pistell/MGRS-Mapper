@@ -320,7 +320,7 @@ a.svg{
 }
 
 .search .mdc-text-field {
-  max-width: 0px;
+  /*max-width: 0px;*/
   overflow: hidden;
   transition: max-width 0.2s ease;
 }
