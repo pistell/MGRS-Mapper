@@ -31,10 +31,10 @@ Open index.html in your text editor and replace Google Map's API key with your o
 - [ ] Download buttons are in a terrible position. Using position: absolute and hiding them in CSS when screen gets too small. This needs to be fixed
 - [ ] Mobile view for this sucks. Although it is not supposed to be used in mobile, there has to be some type of solution to enable jQuery UI to interact with onscreen touch
 - [ ] Add sidebar with popular choice icons (OP, Infantry, Cavalry, Enemy Infantry)
-- [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map
+- [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map. As of now, only SVG markers can be rotated. 
 - [x] No-fill icon toggle
 - [ ] Remove Bootstrap if it is not necessary
-- [ ] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
+- [x] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
 - [ ] Tidy up the icon presets, do we really need 15 Affiliation types? The entire Status drop down can be deleted.
 - [ ] Icon preview window should be a fixed div to enable viewing when the user scrolls down
 - [ ] Icon generator sidebar should be able to be hidden on command to enable more screen for the map
