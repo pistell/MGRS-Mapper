@@ -27,7 +27,7 @@ Open index.html in your text editor and replace Google Map's API key with your o
 + [Google Maps API V3](https://cloud.google.com/maps-platform/)
 
 ## TODO
-- [ ] Symbol resize when unit designator information is input. Need to keep base symbol size the same
+- [ ] Symbols resize differently when there is unit information input from user. Need to find a way to keep symbol shapes uniform
 - [ ] Download buttons are in a terrible position. Using position: absolute and hiding them in CSS when screen gets too small. This needs to be fixed
 - [ ] Mobile view for this sucks. Although it is not supposed to be used in mobile, there has to be some type of solution to enable jQuery UI to interact with onscreen touch
 - [ ] Add sidebar with popular choice icons (OP, Infantry, Cavalry, Enemy Infantry)
@@ -40,6 +40,7 @@ Open index.html in your text editor and replace Google Map's API key with your o
 - [ ] Icon generator sidebar should be able to be hidden on command to enable more screen for the map
 - [ ] MGRS grid lines might be too thin to notice, consider making them stand out more
 - [ ] Minify JS
+- [ ] Add sreeenshot functionality to the Google Maps canvas
 
 
 ## Built With
