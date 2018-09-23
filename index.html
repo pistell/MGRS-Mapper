@@ -1,387 +1,196 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> -->
-  <meta name="description" content="Create maps with NATO military symbols with an MGRS overlay">
-  <meta name="author" content="James Pistell">
-  <title>MGRS Mapper</title>
-  <style type="text/css">
-    @import "css/main.css";
-  </style>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/milsymbol-unit-generator.css" type="text/css">
-  <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-  <link rel="apple-touch-icon" sizes="152x152" href="img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-  <link rel="manifest" href="img/site.webmanifest">
-  <link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
-  <link rel="shortcut icon" href="img/favicon.ico">
-  <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="msapplication-config" content="img/browserconfig.xml">
-  <meta name="theme-color" content="#ffffff">
-  <style media="screen">
-      .gm-style-iw{
-        width: 276px !important;
-        word-wrap:  break-word;
-      }
-    </style>
-  <script>
-    // Polyfill for nodelist.forEach in IE
-    if (window.NodeList && !NodeList.prototype.forEach) {
-      NodeList.prototype.forEach = function(callback, thisArg) {
-        thisArg = thisArg || window;
-        for (var i = 0; i < this.length; i++) {
-          callback.call(thisArg, this[i], i, this);
-        }
-      };
-    }
-  </script>
-  <script src="js/vendor/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-  <!--Bootstrap to Google Maps API. Replace the key with your Google Maps key when deploying  -->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsOmSefgnI4WnFNYgQXE_n5pJyPudm8zM&libraries=geometry,places&ext=.js"></script>
-  <!--Local versions of Xavier Irias scripts-->
-  <script type="text/javascript" src="js/vendor/marconistdlib.js"></script>
-  <script type="text/javascript" src="js/vendor/marconimap.js"></script>
-  <script type="text/javascript" src="js/marconiusnggraticule.js"></script>
-  <!-- Klassen USNG2.js, for UTM and Lat/Long conversions. Final document should bootstrap usng2.js from github if possible -->
-  <script type="text/javascript" src="js/vendor/usng2.js"></script>
-    <script type="text/javascript" src="js/vendor/map.js"></script>
-  <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-  <script src="js/vendor/bootstrap.min.js"></script>
-  <script src="js/milsymbol-unit-generator.js"></script>
+<meta charset="utf-8" />
+<title>MGRS Mapper</title>
+<meta name="description" content="Create maps with NATO military symbols with an MGRS overlay">
+<meta name="author" content="James Pistell">
+<link rel="stylesheet" href="css/main.css" type="text/css">
+<link rel="stylesheet" href="css/milsymbol-unit-generator.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+<link rel="apple-touch-icon" sizes="152x152" href="img/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+<link rel="manifest" href="img/site.webmanifest">
+<link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="img/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="img/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<script>
+// Polyfill for nodelist.forEach in IE
+if (window.NodeList && !NodeList.prototype.forEach) {
+	NodeList.prototype.forEach = function(callback, thisArg) {
+	thisArg = thisArg || window;
+	for (var i = 0; i < this.length; i++) {
+		callback.call(thisArg, this[i], i, this);
+	}
+	};
+}
+</script>
+<script src="js/vendor/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<!--Bootstrap to Google Maps API. Replace the key with your Google Maps key when deploying  -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsOmSefgnI4WnFNYgQXE_n5pJyPudm8zM&libraries=geometry,places&ext=.js"></script>
+<!--Local versions of Xavier Irias scripts-->
+<script type="text/javascript" src="js/vendor/marconistdlib.js"></script>
+<script type="text/javascript" src="js/vendor/marconimap.js"></script>
+<script type="text/javascript" src="js/marconiusnggraticule.js"></script>
+<!-- Klassen USNG2.js, for UTM and Lat/Long conversions. Final document should bootstrap usng2.js from github if possible -->
+<script type="text/javascript" src="js/vendor/usng2.js"></script>
+<script type="text/javascript" src="js/vendor/map.js"></script>
+<script src="js/milsymbol-unit-generator.js"></script>
 </head>
 <body onload="milsymbolUnitGenerator(); initialize();" class="mdc-typography">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="jumbotron" style="background: rgb(34,193,195); background: linear-gradient(90deg, rgba(34,193,195,1) 0%, rgba(98,0,238,1) 100%);">
-          <img src="img/ATrp.png" alt="Alpha Troop 2-101 Cavalry Map Symbol" class="jumboImg">
-          <h2>MGRS Mapper (beta)</h2>
-          <p>
-            Application by 1LT James Pistell. Create any military map symbol (MIL-STD 2525C) and add custom presets if you choose. Drag the symbol onto Google Maps and enable the MGRS overlay for operations planning.
-          </p>
-          <p>
-            <a class="btn btn-primary btn-large" href="https://github.com/pistell/MGRS-Mapper" target="_blank"><svg height="32" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> See GitHub Project</a>
-          </p>
-        </div>
-        <div class="row">
-          <div class="col-md-9" id="map">
-          </div>
-          <div class="col-md-3 toolbar mdc-toolbar">
-            <section id="hidden">
-              <div class="demo-tabs__scroller">
-                <div id="tab-bar-scroller" class="mdc-tab-bar-scroller">
-                  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
-                    <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll back button">
-                        <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
-                           <path d="M0-.5h24v24H0z" fill="none" />
-                        </svg>
-                    </a>
-                  </div>
-                  <div class="mdc-tab-bar-scroller__scroll-frame">
-                    <nav id="scrollable-tab-bar" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar">
-                      <a role="tab" aria-controls="panel-1" class="mdc-tab" href="#panel-1">MIL-STD-2525C</a>
-                      <span class="mdc-tab-bar__indicator"></span>
-                    </nav>
-                  </div>
-                  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
-                    <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll forward button">
-                      <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                         <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
-                         <path d="M0-.25h24v24H0z" fill="none" />
-                      </svg>
-                   </a>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section class="content">
-              <div class="box">
-                <div class="cbinfo">
-                  <div id="gridcheckbox" class="md-checkbox"><input type="checkbox" name="gridlines" onclick="toggleGridDisp();" id="gcb"/><label for="gcb"> MGRS Overlay</label></div>
-                  <div id="coordinateInfo"></div></br>
-                </div>
-                <div class="switchinfo">
-                  <div class="style-inputs fillSwitch">
-                    <section class="switch">
-                      <div class="mdc-switch">
-                        <input type="checkbox" id="fill" class="mdc-switch__native-control" checked="">
-                        <div class="mdc-switch__background">
-                          <div class="mdc-switch__knob"></div>
-                        </div>
-                      </div>
-                      <label for="fill" class="mdc-switch-label">Fill Symbol</label>
-                    </section>
-                  </div>
-                </div>
-                <div class="downloadButtons">
+<div class="mdc-layout-grid">
+	<div class="mdc-layout-grid__inner">
+		  <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9" id="map">
+		  </div>
+		  <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3" id="toolbar">
+			<section id="hidden">
+			  <div class="demo-tabs__scroller">
+				<div id="tab-bar-scroller" class="mdc-tab-bar-scroller">
+				  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
+					<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll back button">
+						<svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
+							<path d="M0-.5h24v24H0z" fill="none" />
+						</svg>
+					</a>
+				  </div>
+				  <div class="mdc-tab-bar-scroller__scroll-frame">
+					<nav id="scrollable-tab-bar" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar">
+					  <a role="tab" aria-controls="panel-1" class="mdc-tab" href="#panel-1">MIL-STD-2525C</a>
+					  <span class="mdc-tab-bar__indicator"></span>
+					</nav>
+				  </div>
+				  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
+					<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll forward button">
+					  <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+						 <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
+						 <path d="M0-.25h24v24H0z" fill="none" />
+					  </svg>
+				   </a>
+				  </div>
+				</div>
+			  </div>
+			</section>
+			<section class="content">
+			  <div class="box">
+				<div class="cbinfo">
+				  <div id="gridcheckbox" class="md-checkbox"><input type="checkbox" name="gridlines" onclick="toggleGridDisp();" id="gcb"/><label for="gcb"> MGRS Overlay</label></div>
+				  <div id="coordinateInfo"></div>
+				</div>
+				<div class="switchinfo">
+				  <div class="style-inputs fillSwitch">
+					<section class="switch">
+					  <div class="mdc-switch">
+						<input type="checkbox" id="fill" class="mdc-switch__native-control" checked="">
+						<div class="mdc-switch__background">
+						  <div class="mdc-switch__knob"></div>
+						</div>
+					  </div>
+					  <label for="fill" class="mdc-switch-label">Fill Symbol</label>
+					</section>
+				  </div>
+				</div>
+				<div class="downloadButtons">
 
-                </div>
-              </div>
-              <p class="dragAndDropNotification">Drag and drop the symbol on the map</p>
-              <div class="panels">
-                <div class="panel panel-2525c" id="panel-1" role="tabpanel" aria-hidden="true">
-                </div>
-              </div>
-            </section>
-            <div class="option-inputs">
-              <section id="demo-text-field-wrapper">
-                <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-                  <input type="text" class="mdc-text-field__input" id="uniqueDesignation" maxlength="21" size="30">
-                  <label for="uniqueDesignation" class="mdc-text-field__label">Unique Unit Designation</label>
-                </div>
-                <p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-                  A text modifier for units, equipment, and installations that uniquely identifies a particular symbol or track number. Identifies
-                  acquisitions number when used with SIGINT symbology.
-                </p>
-              </section>
-              <section id="demo-text-field-wrapper">
-                <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-                  <input type="text" class="mdc-text-field__input" id="higherFormation" maxlength="21" size="30">
-                  <label for="higherFormation" class="mdc-text-field__label">Higher Formation</label>
-                </div>
-                <p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-                  A text modifier for units that indicates number or title of higher echelon command (corps are designated by Roman numerals).
-                </p>
-              </section>
-            </div>
+				</div>
+			  </div>
+			  <p class="dragAndDropNotification">Drag and drop the symbol on the map</p>
+			  <div class="panels">
+				<div class="panel panel-2525c" id="panel-1" role="tabpanel" aria-hidden="true">
+				</div>
+			  </div>
+			</section>
+			<div class="option-inputs">
+			  <section id="demo-text-field-wrapper">
+				<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+					<input type="text" class="mdc-text-field__input" id="uniqueDesignation" maxlength="21" size="30">
+					<label for="uniqueDesignation" class="mdc-text-field__label">Unique Unit Designation</label>
+				</div>
+				<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
+				  A text modifier for units, equipment, and installations that uniquely identifies a particular symbol or track number. Identifies
+				  acquisitions number when used with SIGINT symbology.
+				</p>
+			  </section>
+			  <section id="demo-text-field-wrapper">
+				<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+				  <input type="text" class="mdc-text-field__input" id="higherFormation" maxlength="21" size="30">
+				  <label for="higherFormation" class="mdc-text-field__label">Higher Formation</label>
+				</div>
+				<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
+				  A text modifier for units that indicates number or title of higher echelon command (corps are designated by Roman numerals).
+				</p>
+			  </section>
+			</div>
 
-            <div class="style-inputs">
-              <section class="slider" width="50px">
-                <p style="color:rgba(0, 0, 0, .6)">Outline width</p>
-                <p class="mdc-text-field-helper-text" style="opacity:1;color: rgba(0, 0, 0, .38);">Width of outline, if any.</p>
-                <div id="outlineWidth" class="mdc-slider mdc-slider--discrete" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" data-step="1" aria-label="Select Value" width="50%">
-                  <div class="mdc-slider__track-container">
-                    <div class="mdc-slider__track" style="transform: scaleX(0.2);"></div>
-                  </div>
-                  <div class="mdc-slider__thumb-container" style="transform: translateX(66px) translateX(-50%);">
-                    <div class="mdc-slider__pin">
-                      <span class="mdc-slider__pin-value-marker">2</span>
-                    </div>
-                    <svg class="mdc-slider__thumb" width="21" height="21">
-                                    <circle cx="10.5" cy="10.5" r="7.875"></circle>
-                                </svg>
-                    <div class="mdc-slider__focus-ring"></div>
-                  </div>
-                </div>
-              </section>
+			<div class="style-inputs">
+			  <section class="slider" width="50px">
+				<p style="color:rgba(0, 0, 0, .6)">Outline width</p>
+				<p class="mdc-text-field-helper-text" style="opacity:1;color: rgba(0, 0, 0, .38);">Width of outline, if any.</p>
+				<div id="outlineWidth" class="mdc-slider mdc-slider--discrete" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" data-step="1" aria-label="Select Value" width="50%">
+				  <div class="mdc-slider__track-container">
+					<div class="mdc-slider__track" style="transform: scaleX(0.2);"></div>
+				  </div>
+				  <div class="mdc-slider__thumb-container" style="transform: translateX(66px) translateX(-50%);">
+					<div class="mdc-slider__pin">
+					  <span class="mdc-slider__pin-value-marker">2</span>
+					</div>
+					<svg class="mdc-slider__thumb" width="21" height="21">
+									<circle cx="10.5" cy="10.5" r="7.875"></circle>
+								</svg>
+					<div class="mdc-slider__focus-ring"></div>
+				  </div>
+				</div>
+			  </section>
 
-              <div class="select">
-                <div id="outlineColor" class="mdc-select" role="listbox">
-                  <div class="mdc-select__surface mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" tabindex="0" style="width: 90px; --mdc-ripple-fg-size:198px; --mdc-ripple-fg-scale:1.741; --mdc-ripple-fg-translate-start:8.66406px, -62.4063px; --mdc-ripple-fg-translate-end:66px, -71px;">
-                    <div class="mdc-select__label mdc-select__label--float-above">Outline color</div>
-                    <div class="mdc-select__selected-text"></div>
-                    <div class="mdc-select__bottom-line"></div>
-                  </div>
-                  <div class="mdc-menu mdc-select__menu" style="left: 1792.19px; top: 360.781px; transform-origin: center 392px 0px;">
-                    <ul class="mdc-list mdc-menu__items">
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        Aqua
-                      </li>
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        Blue
-                      </li>
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        Gray
-                      </li>
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        Green
-                      </li>
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        Maroon
-                      </li>
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        Red
-                      </li>
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        Yellow
-                      </li>
-                      <li class="mdc-list-item" role="option" tabindex="0">
-                        White
-                      </li>
-                      <li id="rgb(239, 239, 239)" class="mdc-list-item" role="option" tabindex="0">
-                        Offwhite
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+			  <div class="select">
+				<div id="outlineColor" class="mdc-select" role="listbox">
+				  <div class="mdc-select__surface mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" tabindex="0" style="width: 90px; --mdc-ripple-fg-size:198px; --mdc-ripple-fg-scale:1.741; --mdc-ripple-fg-translate-start:8.66406px, -62.4063px; --mdc-ripple-fg-translate-end:66px, -71px;">
+					<div class="mdc-select__label mdc-select__label--float-above">Outline color</div>
+					<div class="mdc-select__selected-text"></div>
+					<div class="mdc-select__bottom-line"></div>
+				  </div>
+				  <div class="mdc-menu mdc-select__menu" style="left: 1792.19px; top: 360.781px; transform-origin: center 392px 0px;">
+					<ul class="mdc-list mdc-menu__items">
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						Aqua
+					  </li>
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						Blue
+					  </li>
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						Gray
+					  </li>
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						Green
+					  </li>
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						Maroon
+					  </li>
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						Red
+					  </li>
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						Yellow
+					  </li>
+					  <li class="mdc-list-item" role="option" tabindex="0">
+						White
+					  </li>
+					  <li id="rgb(239, 239, 239)" class="mdc-list-item" role="option" tabindex="0">
+						Offwhite
+					  </li>
+					</ul>
+				  </div>
+				</div>
+			  </div>
 
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script type="text/javascript">
-    //Load symbol dragging function when Window loads
-    var id = 0;
-    var markers = [];
-    iw = new google.maps.InfoWindow();
-    var mouseStartDrag = [0, 0];
-    var newMarker;
-    var activePointPin = [47, 128]; // = bottom center of the pin.  Change this value if the pin is changed
-    var map;
-    var overlay;
-    var iw;
-    var canvasLayer;
-    var resolutionScale = window.devicePixelRatio || 1;
-    overlay = new google.maps.OverlayView();
-    overlay.draw = function() {};
-    overlay.setMap(map);
-    elevator = new google.maps.ElevationService();
-    console.log("MGRS Mapper by James Pistell");
-    $(window).on('load', function() {
-      function enableSymbolDragging() {
-        //Enable the symbol preview to start dragging
-        $('.draggable').draggable({
-          revert: true,
-          stack: ".draggable",
-          helper: 'clone'
-        });
-        //Enable the map canvas to accept the drop
-        $('#map').droppable({
-          accept: ".draggable",
-          drop: function(event, ui) {
-            if (iw) iw.close(); //If there is an InfoWindow open, close it when a new element is dragged in
-            document.getElementsByClassName("dragAndDropNotification")[0].style.display = "none"; //Remove drag and drop notification once the symbol has been dropped
-            var zIndex = 0;
-            var contentStr = [];
-            var droppable = $(this);
-            var draggable = ui.draggable;
-            var coordinatesOverDiv = [event.clientX - $('#map').position().left, event.clientY - $('#map').position().top];
-            // we don't want the mouse position, we want the position of the active point on the pin.
-            coordinatesOverDiv = [
-              coordinatesOverDiv[0] + activePointPin[0] - mouseStartDrag[0],
-              coordinatesOverDiv[1] + activePointPin[1] - mouseStartDrag[1]
-            ];
-            // ask Google to get the position, corresponding to a pixel on the map
-            var pixelLatLng = overlay.getProjection().fromContainerPixelToLatLng(new google.maps.Point(coordinatesOverDiv[0], coordinatesOverDiv[1]));
-            // set a new marker
-            var getBase64 = $(".svg-symbol img").attr('src');
-            var getNewHeight = $(".svg-symbol img").attr('height'); //gets the new Symbol Height from the resizer function in milsymbol-unit-generator.js
-            var getNewWidth = $(".svg-symbol img").attr('width');
-            image = new google.maps.MarkerImage(getBase64, null, null, null);
-            var newMarker = new google.maps.Marker({
-              map: map,
-              position: pixelLatLng,
-              draggable: true,
-              icon: image,
-              id: id++,
-              optimized: false,
-              zIndex: zIndex,
-              funcid: document.getElementsByClassName("funcid")[0].innerText.split("-").slice(-2).reverse().join(", ") //Appends the Function ID to the infowindow for readability
-            });
-            markers.push(newMarker);
-
-            newMarker.icon.scaledSize = new google.maps.Size(getNewWidth, getNewHeight);
-            google.maps.event.addListener(newMarker, "click", function(e) {
-              actual = newMarker;
-              var lat = actual.getPosition().lat();
-              var lng = actual.getPosition().lng();
-              var theCurrentLatLon = "<div class='infowindow'><h6><span style='color: red;'>Lat/Lon: <\/span>" + lat.toFixed(6) + ", " + lng.toFixed(6) + "<\/h6><\/div>";
-              var theCurrentMGRS = "<div class='MGRS'><h6><span style='color: red;'>MGRS: <\/span>" + USNG.LLtoUSNG(lat, lng, 5) + "<\/h6><\/div>";
-              //This will send out the Lat/Lon and MGRS data into the InfoWindow
-              iw.setContent(theCurrentLatLon + theCurrentMGRS);
-              iw.open(map, this);
-            });
-
-            //This listener is only for retreiving the Elevation
-            google.maps.event.addListener(newMarker, 'click', function(event) {
-              displayLocationElevation(event.latLng, elevator, iw);
-            });
-            // from https://jsfiddle.net/user2314737/j285Le70/
-            function displayLocationElevation(location, elevator, iw) {
-              // Initiate the location request
-              elevator.getElevationForLocations({
-                'locations': [location]
-              }, function(results, status) {
-                iw.setPosition(location);
-                if (status === 'OK') {
-                  // Retrieve the first result
-                  if (results[0]) {
-                    var theCurrentElevation = "<div class='Elevation'><h6><span style='color: red;'>Elevation: <\/span>" + parseInt(results[0].elevation) + " meters<\/h6><\/div>";
-                    theCurrentElevation += "<h6><span style='color: red;'>Unit: <\/span>" + newMarker.funcid + "</h6>" // Append the function ID to the unit window!
-                    theCurrentElevation += "<br /><input type = 'button' value = 'Delete' onclick = 'DeleteMarker(" + newMarker.id + ")' value = 'Delete' />";
-                    let elem = document.querySelector(".MGRS");
-                    elem.innerHTML = elem.innerHTML + theCurrentElevation;
-                  } else {
-                    iw.setContent('No results found');
-                  }
-                } else {
-                  iw.setContent('Elevation service failed due to: ' + status);
-                }
-              });
-            }
-
-
-            google.maps.event.addListener(newMarker, "dragstart", function() {
-              //if (contextMenu) contextMenu.hide(); //Closes the Context Menu when the Marker is dragged
-              actual = newMarker;
-              if (actual == newMarker) iw.close();
-              zIndex += 1;
-
-              newMarker.setZIndex(zIndex);
-            });
-            google.maps.event.addListener(map, "click", function() {
-              if (iw) iw.close(); //close the information window onclick
-              if (contextMenu) contextMenu.hide(); //close the context menu on map click
-            });
-            // Move draggable into droppable
-            draggable.clone().appendTo(droppable);
-
-          }
-        });
-      };
-      enableSymbolDragging(); //run the function when the page loads
-
-      //Changes the label for "Symbol Modifier 2" to "Unit Size" when selected on everything except Ground Equipment. Makes everything more logical
-      function changeLabel() {
-        if (document.querySelector(".battle_dim").innerText === "Ground Equipment") {
-          document.querySelector(".sym_mod_2").innerText = "Symbol Modifier 2";
-        } else {
-          document.querySelector(".sym_mod_2").innerText = "Unit Size";
-        }
-      }
-
-      //Start an event listener on the right sidebar and look for MUTATATIONS
-      //This will re-enable the drag function during any DOM change
-      var listenNodes = document.querySelector('.mdc-toolbar');
-      var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          if (mutation.type == "attributes") {
-            //Run the function if there is any DOM mutations on the right sidebar
-            enableSymbolDragging();
-            changeLabel();
-          }
-        });
-      });
-
-      observer.observe(listenNodes, {
-        attributes: true,
-        subtree: true,
-      });
-    });
-
-
-    //Delete the marker by ID
-    function DeleteMarker(id) {
-      for (var i = 0; i < markers.length; i++) {
-        // SECOND CHANGE
-        if (markers[i].id == id) {
-          // THIRD CHANGE
-          //console.log("This ID: " + this.marker.id);
-          //markers[i].setMap(null);
-          markers[i].setMap(null);
-          markers.splice(i, -1);
-          return;
-        }
-      }
-    }
-  </script>
+			</div>
+		  </div>
+		</div>
+	</div>
+<script src="js/mgrs-mapper.js"></script>
 </body>
 </html>
