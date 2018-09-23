@@ -76764,7 +76764,6 @@ var milsymbolUnitGenerator = (function() {
                         symetric: false
                     }
                 );
-                console.log(downloadSymbol.bbox.height());
                 
                 elm.querySelector("a.png").href = downloadSymbol.asCanvas().toDataURL();
                 elm.querySelector("a.svg").href = downloadSymbol.toDataURL();
