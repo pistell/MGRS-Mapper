@@ -406,11 +406,6 @@ div#coordinateInfo {
 	display: contents;
 }
 
-/* .box{
-	display: flex;
-	justify-content: space-between;
-} */
-
 
 .box {
 		display: inline-flex;
@@ -425,6 +420,7 @@ div#coordinateInfo {
 		order: 1;
 		flex: 0 1 auto;
 		align-self: auto;
+		height: 4rem;
 		}
 
 .switchinfo:nth-child(2) {
@@ -585,8 +581,3 @@ p.dragAndDropNotification {
     height: 48px;
     width: 93%;
 }
-
-/* .switchinfo {
-  margin: 0 auto;
-	width: 60%;
-} */
