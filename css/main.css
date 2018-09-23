@@ -481,3 +481,8 @@ p.dragAndDropNotification {
 	height: 48px;
 	width: 93%;
 }
+
+.gm-style-iw {
+	width: 276px !important;
+	word-wrap:  break-word;
+}
