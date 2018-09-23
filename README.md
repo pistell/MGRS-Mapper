@@ -28,10 +28,10 @@ Open index.html in your text editor and replace Google Map's API key with your o
 
 ## TODO
 - [ ] Symbols resize differently when there is unit information input from user. Need to find a way to keep symbol shapes uniform
-- [ ] Download buttons are in a terrible position. Using position: absolute and hiding them in CSS when screen gets too small. This needs to be fixed
+- [x] Download buttons are in a terrible position. Using position: absolute and hiding them in CSS when screen gets too small. This needs to be fixed
 - [ ] Mobile view for this sucks. Although it is not supposed to be used in mobile, there has to be some type of solution to enable jQuery UI to interact with onscreen touch
 - [ ] Add sidebar with popular choice icons (OP, Infantry, Cavalry, Enemy Infantry)
-- [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map. As of now, only SVG markers can be rotated. 
+- [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map. As of now, only SVG markers can be rotated.
 - [x] No-fill icon toggle
 - [ ] Remove Bootstrap if it is not necessary
 - [x] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
@@ -51,7 +51,7 @@ Open index.html in your text editor and replace Google Map's API key with your o
 ## Creators and Contributors
 
 + ##### James Pistell
-  * ![James Pistell's GitHub Account](http://i.imgur.com/Myo5q9q.png "James Pistells GitHub Account") [GitHub](https://github.com/pistell)  
+  * ![James Pistell's GitHub Account](http://i.imgur.com/Myo5q9q.png "James Pistells GitHub Account") [GitHub](https://github.com/pistell)
   * ![James Pistell's LinkedIn Account](http://i.imgur.com/Oq9lKwx.png "James Pistells LinkedIn Account") [LinkedIn](https://www.linkedin.com/in/jamespistell)
 
 + ##### Joseph Fusco
