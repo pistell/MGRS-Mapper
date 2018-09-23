@@ -340,6 +340,8 @@ div#coordinateInfo {
 	order: 3;
 	flex: 0 1 auto;
 	align-self: auto;
+	padding-top: 10px;
+	padding-right: 8px;
 }
 
 .md-checkbox {
