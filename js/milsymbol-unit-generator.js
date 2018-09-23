@@ -77181,7 +77181,7 @@ var milsymbolUnitGenerator = (function() {
         search.listen(
             "keyup",
             function() {
-                var max_number_results = 10;
+                var max_number_results = 20;
                 var results = this.search(search.value, max_number_results);
                 //console.trace(results);
                 if (results.length) {
