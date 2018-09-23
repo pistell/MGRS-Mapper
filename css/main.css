@@ -7,6 +7,8 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0
+  overflow-y: scroll;
+  overflow-x: hidden;
 	}
 
 #map_canvas {
@@ -267,22 +269,25 @@ a {
   border-bottom: 1px solid #e5e5e5;
 }
 
-a.png{
+/* a.png{
 	position: absolute;
 	top: 0;
-	right: 14%;
+	right: 16%;
 }
 a.svg{
 	position: absolute;
 	top: 0;
-	right: 4%;
-}
+	right: 1%;
+} */
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1475px) {
 	a.svg {
-	display: none;
+	/*display: none;*/
 	}
 	a.png{
+		/* display: none; */
+	}
+	#search-icon{
 		display: none;
 	}
 }
@@ -375,7 +380,7 @@ h2 {
 }
 
 .option-inputs section {
-  width: 400px;
+  width: auto;
   display: inline-block;
   height: 108px;
 }
@@ -401,10 +406,40 @@ div#coordinateInfo {
 	display: contents;
 }
 
-.box{
+/* .box{
 	display: flex;
 	justify-content: space-between;
-}
+} */
+
+
+.box {
+		display: inline-flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content: center;
+		align-items: flex-start;
+		}
+
+.cbinfo:nth-child(1) {
+		order: 1;
+		flex: 0 1 auto;
+		align-self: auto;
+		}
+
+.switchinfo:nth-child(2) {
+		order: 2;
+		flex: 0 1 auto;
+		align-self: auto;
+		}
+
+.downloadButtons:nth-child(3) {
+		order: 3;
+		flex: 0 1 auto;
+		align-self: auto;
+		}
+
+
 .md-checkbox {
   position: relative;
   /* margin: 1em 0; */
@@ -522,7 +557,7 @@ p.dragAndDropNotification {
 
 .select {
   /*margin-bottom: 20px;*/
-  width: 330px;
+  width: auto;
   /*margin-right: 30px;
     padding-right: 50px;*/
   margin-top: 5px
@@ -535,5 +570,23 @@ p.dragAndDropNotification {
 	border-top-right-radius: .3rem;
 }
 .mdc-menu.mdc-select__menu.mdc-menu--open {
-	right: 0rem;	
+	right: 0rem;
 }
+.search {
+    text-align: center;
+    /* width: 100% !important; */
+    padding-bottom: 10px;
+    left: -12px !important;
+    /* right: auto; */
+    position: relative;
+    /* width: 600px; */
+}
+.mdc-text-field--upgraded:not(.mdc-text-field--fullwidth):not(.mdc-text-field--box):not(.mdc-text-field--textarea):not(.mdc-text-field--outlined) {
+    height: 48px;
+    width: 93%;
+}
+
+/* .switchinfo {
+  margin: 0 auto;
+	width: 60%;
+} */
