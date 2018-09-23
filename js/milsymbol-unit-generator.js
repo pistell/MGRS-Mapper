@@ -76764,10 +76764,10 @@ var milsymbolUnitGenerator = (function() {
                         symetric: false
                     }
                 );
-                
+
                 elm.querySelector("a.png").href = downloadSymbol.asCanvas().toDataURL();
                 elm.querySelector("a.svg").href = downloadSymbol.toDataURL();
-                
+
 
                 var fileName = [];
                 if (options.uniqueDesignation) fileName.push(options.uniqueDesignation);
@@ -76780,8 +76780,8 @@ var milsymbolUnitGenerator = (function() {
                 var newObject = jQuery.extend(true, {}, elm.childNodes[1]); //Create a new object with the child node that has the download links in it
                 var dlb = document.querySelector(".downloadButtons"); //Set target div
                 dlb.innerHTML = newObject.innerHTML; //Move the HTML for the download links into the target div
-                jQuery("#symz").css({ "display": "none" }); //Hide the original download buttons since we don't need them anymore               
-                
+                jQuery("#symz").css({ "display": "none" }); //Hide the original download buttons since we don't need them anymore
+
                 if (isIE) {
                     elm.querySelector("a.png").style = "display:none;";
                     elm.querySelector("a.svg").style = "display:none;";
@@ -77153,13 +77153,13 @@ var milsymbolUnitGenerator = (function() {
             panel.querySelector(".search .mdc-text-field")
         );
         window.search = search;
-        panel
-            .querySelector(".search #search-icon")
-            .addEventListener("click", function() {
-                // fix better way to show panel
-                panel.querySelector(".search .mdc-text-field").classList.add("active");
-                //panel.querySelector(".search input").focus();
-            });
+        // panel
+        //     .querySelector(".search #search-icon")
+        //     .addEventListener("click", function() {
+        //         // fix better way to show panel
+        //         panel.querySelector(".search .mdc-text-field").classList.add("active");
+        //         //panel.querySelector(".search input").focus();
+        //     });
         panel
             .querySelector(".search .mdc-text-field")
             .addEventListener("transitionend", function() {
