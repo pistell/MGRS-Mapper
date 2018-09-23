@@ -1,6 +1,5 @@
-( function( $ ) {
 
-	    //Load symbol dragging function when Window loads
+        // Load symbol dragging function when Window loads
         var id = 0;
         var markers = [];
         iw = new google.maps.InfoWindow();
@@ -164,5 +163,3 @@
             }
           }
         }
-
-}( jQuery ) );
