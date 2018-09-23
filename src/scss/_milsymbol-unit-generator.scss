@@ -8489,3 +8489,7 @@ a.mdc-list-item {
 .mdc-typography--adjust-margin.mdc-typography--button {
   margin: inherit;
 }
+
+@media (max-width: 839px) {
+	grid-column-end: span 12;
+}

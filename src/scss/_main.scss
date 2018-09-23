@@ -493,3 +493,9 @@ p.dragAndDropNotification {
 	width: 276px !important;
 	word-wrap:  break-word;
 }
+
+@media (max-width: 839px) {
+	#toolbar {
+		grid-column-end: span 12;
+	}
+}
