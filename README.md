@@ -1,7 +1,7 @@
 # MGRS Mapper
 
 Drag and drop custom generated NATO military symbols onto Google Maps with an MGRS overlay.
-![MGRS Mapper Screenshot](https://i.imgur.com/zwBViaX.jpg "MGRS Mapper Screenshot")
+![MGRS Mapper Screenshot](http://i.imgur.com/lozzh2W.jpg "MGRS Mapper Screenshot")
 
 ## Live Demo
 
@@ -42,13 +42,17 @@ Open index.html in your text editor and replace Google Map's API key with your o
 - [x] Remove Bootstrap if it is not necessary
 - [x] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
 - [ ] Tidy up the icon presets, do we really need 15 Affiliation types? The entire Status drop down can be deleted.
-- [ ] Icon preview window should be a fixed div to enable viewing when the user scrolls down
+- [x] Icon preview window should be a fixed div to enable viewing when the user scrolls down
 - [ ] Icon generator sidebar should be able to be hidden on command to enable more screen for the map
 - [ ] MGRS grid lines might be too thin to notice, consider making them stand out more
 - [x] Minify JS
 - [x] Beautify HTML
 - [ ] Add sreeenshot functionality to the Google Maps canvas
-
+- [ ] Change Suspect on Affiliation to “Suspect/templated”
+- [x] Change Function ID to “Unit Type” and back to Function ID when Ground Installation is selected
+- [ ] Remove Status from drop down
+- [ ] Add project license.txt file
+- [ ] Create a function to clone a map marker via the info window
 
 ## Built With
 

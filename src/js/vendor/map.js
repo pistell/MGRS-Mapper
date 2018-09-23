@@ -6,8 +6,8 @@
 *
 * Copyright (c) 2013 Mike Dolbow, mmdolbow@gmail.com
 * Special Thanks to Larry Moore for original version 2 of this map
-* Released under the MIT License 
-* http:*www.opensource.org/licenses/mit-license.php 
+* Released under the MIT License
+* http:*www.opensource.org/licenses/mit-license.php
 * http:*en.wikipedia.org/wiki/MIT_License
 *
 * Permission is hereby granted, free of charge, to any person
@@ -30,8 +30,8 @@
 * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
- * 
- * HAS: 
+ *
+ * HAS:
  * 1. Map
  * 2. Geocoder setup for address
  * 3. AutoComplete bound to the input text for address
@@ -44,7 +44,7 @@
  * 10. USNG Search is translated to a lat/long and precision and the map is panned/zoomed accordingly
  * 11. Functions to toggle zone and grid lines, which call functions in gridlines.js
  * 12. Dynamic display of USNG coordinates
- * 
+ *
  * NEEDS:
  * 1. No way to bind/unbind the autocomplete depending if address or usng search is chosen
  *    Attempt to bind to a hidden textbox instead doesn't work
@@ -59,7 +59,7 @@
  *    When disabled, you can't click in them, and it would be good to just click in the input box to activate it. Below is code for disabling that doesn't work:
  *		console.log("Switching to the USNG Search Type.");
 		document.getElementById('inputAddrTxt').disabled=true;
-		document.getElementById('inputUSNGTxt').disabled=false; 
+		document.getElementById('inputUSNGTxt').disabled=false;
  * */
 
 //Debug variable. Set to true while developing, false when testing
@@ -105,8 +105,8 @@ var gridstyle = {
     minorLineWeight: 1,
     minorLineOpacity: 0.3,
     fineLineColor: "#ff6633",
-    fineLineWeight: 1,
-    fineLineOpacity: 0.3,
+    fineLineWeight: 2,
+    fineLineOpacity: 0.5,
 
     majorLabelClass:     "majorGridLabel",
     semiMajorLabelClass: "semiMajorGridLabel",
@@ -133,22 +133,22 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map"),
         mapOptions);
-   
-   elevator = new google.maps.ElevationService();	
-	
+
+   elevator = new google.maps.ElevationService();
+
    overlay = new google.maps.OverlayView();
    overlay.draw = function() {};
    overlay.setMap(map);
-   
+
     //Input address text
     //var inputAddrTxt = document.getElementById('inputAddrTxt');
-    
+
     //Set initial USNG overlays as off
-    map.zoneon = false;    
+    map.zoneon = false;
 	map.grid100kon = false;
 	map.grid1kon=false;
 	map.grid100mon=false;
-	
+
 	//add a onetime listener for the map idle so we can instantiate a usng viewport
 	/* Only needed when using gridlines.js. Marconi code doesn't require
 	google.maps.event.addListenerOnce(map, 'idle', function(){
@@ -156,15 +156,15 @@ function initialize() {
         curr_usng_view = new usngviewport(this);
     });
     */
-	
+
 	//initialize the autocomplete function
 	//autocomplete = new google.maps.places.Autocomplete(inputAddrTxt, autocOptions);
-	
+
 	//add a listener for the autocomplete choice made
 	//google.maps.event.addListener(autocomplete, 'place_changed', function() {
 	//	document.getElementById('btnSearch').click();
 	//});
-	
+
  //  	google.maps.event.addListener(map, 'click', function(event) {
 	// 	if (disableClickListener){
 	// 		return;
@@ -173,20 +173,20 @@ function initialize() {
 	// 		createMarker(event.latLng);
 	// 	}
 	// });
-	
+
   	google.maps.event.addListener(map, 'mousemove', function(event) {
 		var mouseLL=event.latLng;
         var mouseUSNG = usngfunc.fromLonLat({lon:mouseLL.lng(),lat:mouseLL.lat()},4);
 		document.getElementById("coordinateInfo").innerHTML= "<em>"+mouseUSNG+"<\/em>";
 	});
-	
+
 	if (debug) {
-		google.maps.event.addListener(map, 'zoom_changed', function(event){ 
+		google.maps.event.addListener(map, 'zoom_changed', function(event){
 			//document.getElementById("debugZlev").innerHTML="Zlev: "+map.getZoom();
 			console.log("Current zoom level is: "+map.getZoom());
 		});
 	}
-	
+
 }
 
 
@@ -194,7 +194,7 @@ function initialize() {
 // function startSearch(addrTxt,USNGTxt) {
 // 	//console.log("Starting Text Search of type: "+searchType);
 // 	if (searchType === "address") {
-// 		codeAddress(addrTxt); 
+// 		codeAddress(addrTxt);
 // 	} else { //with only two search types, assume USNG if not address
 // 		USNGTxt = USNGTxt.toLocaleUpperCase();
 // 		convUSNG(USNGTxt);
@@ -237,7 +237,7 @@ function initialize() {
 //       }
 //     });
 //   }
-  
+
 //Convert a USNG string to a lat long for a marker and zooming
 // function convUSNG(txt) {
 // 	//console.log("Let's try to convert USNG: "+txt);
@@ -251,7 +251,7 @@ function initialize() {
 // 		return null;
 // 	}
 // 	//console.log("Lat long components are: Precision - "+foundLLobj.precision+" Lat:"+foundLLobj.lat+" Long:"+foundLLobj.lon);
-	
+
 // 	//need best way to get a zoom level based on the returned precision
 //     //trying to get to 0 = 100km, 1 = 10km, 2 = 1km, 3 = 100m, 4 = 10m, 5 = 1m, ...
 // 	//This is a crude way to do this, just like in when we go from precision to zoom level
@@ -262,7 +262,7 @@ function initialize() {
 // 			else if (foundLLobj.precision===4) {usngZlev=16;}
 // 			else if (foundLLobj.precision===5) {usngZlev=18;}
 // 			else {usngZlev=21;}
-	
+
 // 	map.setZoom(usngZlev);
 // 	//console.log("New zoom level is: "+usngZlev);
 // 	var foundLatLng = new google.maps.LatLng(foundLLobj.lat,foundLLobj.lon);
@@ -284,20 +284,19 @@ function mapClickListenerToggle() {
 /* **************************
  * Grid and Overlay Functions
  * **************************
- */ 
+ */
 
 
 // response to check box that allows user to turn grid lines on and off
 function toggleGridDisp() {
-   if (map.zoneon == false) { 
-        map.zoneon=true; 
+   if (map.zoneon == false) {
+        map.zoneon=true;
         graticule = new USNGGraticule(map,gridstyle);
    }
-   else {   
+   else {
        //zoneLines.setMap(null);
        graticule.setMap(null);
-       map.zoneon = false; 
+       map.zoneon = false;
    }
  //   alert("in toggleZoneDisp, property zoneon="+map.zoneon)
 }
-

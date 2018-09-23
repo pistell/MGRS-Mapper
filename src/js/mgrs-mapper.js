@@ -86,7 +86,7 @@ $(window).on('load', function() {
 							if (results[0]) {
 								var theCurrentElevation = "<div class='Elevation'><h6><span style='color: red;'>Elevation: <\/span>" + parseInt(results[0].elevation) + " meters<\/h6><\/div>";
 								theCurrentElevation += "<h6><span style='color: red;'>Unit: <\/span>" + newMarker.funcid + "</h6>" // Append the function ID to the unit window!
-								theCurrentElevation += "<br /><input type = 'button' value = 'Delete' onclick = 'DeleteMarker(" + newMarker.id + ")' value = 'Delete' />";
+								theCurrentElevation += "<input type = 'button' value = 'Delete' onclick = 'DeleteMarker(" + newMarker.id + ")'/>";
 								var elem = document.querySelector(".MGRS");
 								elem.innerHTML = elem.innerHTML + theCurrentElevation;
 							} else {
@@ -98,18 +98,15 @@ $(window).on('load', function() {
 					});
 				}
 
-
 				google.maps.event.addListener(newMarker, "dragstart", function() {
 					//if (contextMenu) contextMenu.hide(); //Closes the Context Menu when the Marker is dragged
 					actual = newMarker;
 					if (actual == newMarker) iw.close();
 					zIndex += 1;
-
 					newMarker.setZIndex(zIndex);
 				});
 				google.maps.event.addListener(map, "click", function() {
 					if (iw) iw.close(); //close the information window onclick
-					if (contextMenu) contextMenu.hide(); //close the context menu on map click
 				});
 				// Move draggable into droppable
 				draggable.clone().appendTo(droppable);
@@ -141,22 +138,16 @@ $(window).on('load', function() {
 			}
 		});
 	});
-
 	observer.observe(listenNodes, {
 		attributes: true,
 		subtree: true,
 	});
 });
 
-
 // Delete the marker by ID.
 function DeleteMarker(id) {
 	for (var i = 0; i < markers.length; i++) {
-		// SECOND CHANGE
 		if (markers[i].id == id) {
-			// THIRD CHANGE
-			//console.log("This ID: " + this.marker.id);
-			//markers[i].setMap(null);
 			markers[i].setMap(null);
 			markers.splice(i, -1);
 			return;

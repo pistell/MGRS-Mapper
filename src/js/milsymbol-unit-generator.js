@@ -77612,7 +77612,6 @@ var milsymbolUnitGenerator = (function() {
                         (sidc.charAt(10) || "-") +
                         (sidc.charAt(11) || "-");
                     if (sidc == rowSIDC) {
-                        console.log( sidc );
                         foundSIDC = true;
                         break;
                     }
