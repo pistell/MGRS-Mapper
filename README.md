@@ -46,6 +46,25 @@ Open index.html in your text editor and replace Google Map's API key with your o
 * [Atom](https://atom.io/)
 * [Tears](http://i.imgur.com/pM1bLLX.jpg)
 
+## Contributing
+
+After cloning down the repository, run the following command within the root of the project:
+```sh
+npm install
+```
+
+This will install the project's development dependencies. To begin watching the files run:
+
+```sh
+npm start
+```
+
+Anytime changes are made to the js, scss, or main html file, [browsersync](https://browsersync.io/) will automatically reload the page.
+
+If editing `js/milsymbol-unit-generator.js`, please be patient when saving as it will take a while for the file to compile because of it's size.
+
+Note: Do no edit anything within the `dist/` directory as it will be overwritten when building. All edits should be from within `src/`.
+
 ---
 ## Creators and Contributors
 

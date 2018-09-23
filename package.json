@@ -1,0 +1,36 @@
+{
+  "name": "MGRS-Mapper",
+  "version": "1.0.0",
+  "description": "Drag and drop custom generated NATO military symbols onto Google Maps with an MGRS overlay. ![MGRS Mapper Screenshot](https://i.imgur.com/zwBViaX.jpg \"MGRS Mapper Screenshot\")",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx gulp dev",
+    "symbols": "npx gulp symbols",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pistell/MGRS-Mapper.git"
+  },
+  "keywords": [],
+  "author": "James Pistell",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "chalk": "^2.4.1",
+    "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-header": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-watch": "^5.0.1",
+    "pump": "^2.0.0"
+  }
+}
