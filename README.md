@@ -21,7 +21,6 @@ Open index.html in your text editor and replace Google Map's API key with your o
 
 + [jQuery 3.3.1](http://jquery.com)
 + [jQuery UI 1.11.1](http://jqueryui.com/)
-+ [Bootstrap 4.0.0](http://getbootstrap.com)
 + [USNG GMAP V3](https://github.com/mmdolbow/usng-gmap-v3)
 + [milsymbol.js](https://github.com/spatialillusions/milsymbol)
 + [Google Maps API V3](https://cloud.google.com/maps-platform/)
@@ -33,7 +32,7 @@ Open index.html in your text editor and replace Google Map's API key with your o
 - [ ] Add sidebar with popular choice icons (OP, Infantry, Cavalry, Enemy Infantry)
 - [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map. As of now, only SVG markers can be rotated.
 - [x] No-fill icon toggle
-- [ ] Remove Bootstrap if it is not necessary
+- [x] Remove Bootstrap if it is not necessary
 - [x] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
 - [ ] Tidy up the icon presets, do we really need 15 Affiliation types? The entire Status drop down can be deleted.
 - [ ] Icon preview window should be a fixed div to enable viewing when the user scrolls down
