@@ -5,7 +5,7 @@
 <title>MGRS Mapper</title>
 <meta name="description" content="Create maps with NATO military symbols with an MGRS overlay">
 <meta name="author" content="James Pistell">
-<link rel="stylesheet" type="text/css" href="dist/css/app.min.css" >
+<link rel="stylesheet" type="text/css" href="dist/css/app.min.css">
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
 <link rel="apple-touch-icon" sizes="152x152" href="img/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
@@ -17,172 +17,174 @@
 <meta name="msapplication-config" content="img/browserconfig.xml">
 <meta name="theme-color" content="#ffffff">
 <script>
-// Polyfill for nodelist.forEach in IE
-if (window.NodeList && !NodeList.prototype.forEach) {
-	NodeList.prototype.forEach = function(callback, thisArg) {
-	thisArg = thisArg || window;
-	for (var i = 0; i < this.length; i++) {
-		callback.call(thisArg, this[i], i, this);
+	// Polyfill for nodelist.forEach in IE
+	if (window.NodeList && !NodeList.prototype.forEach) {
+		NodeList.prototype.forEach = function (callback, thisArg) {
+			thisArg = thisArg || window;
+			for (var i = 0; i < this.length; i++) {
+				callback.call(thisArg, this[i], i, this);
+			}
+		};
 	}
-	};
-}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsOmSefgnI4WnFNYgQXE_n5pJyPudm8zM&libraries=geometry,places&ext=.js"></script>
 <script src="dist/js/app-header.min.js"></script>
 <script src="dist/js/app-symbols.min.js"></script>
 </head>
 <body onload="milsymbolUnitGenerator(); initialize();" class="mdc-typography">
-<div class="mdc-layout-grid">
-	<div class="mdc-layout-grid__inner">
-		  <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9" id="map">
-		  </div>
-		  <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3" id="toolbar">
-			<section id="hidden">
-			  <div class="demo-tabs__scroller">
-				<div id="tab-bar-scroller" class="mdc-tab-bar-scroller">
-				  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
-					<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll back button">
-						<svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-							<path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
-							<path d="M0-.5h24v24H0z" fill="none" />
-						</svg>
-					</a>
-				  </div>
-				  <div class="mdc-tab-bar-scroller__scroll-frame">
-					<nav id="scrollable-tab-bar" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar">
-					  <a role="tab" aria-controls="panel-1" class="mdc-tab" href="#panel-1">MIL-STD-2525C</a>
-					  <span class="mdc-tab-bar__indicator"></span>
-					</nav>
-				  </div>
-				  <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
-					<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll forward button">
-					  <svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-						 <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
-						 <path d="M0-.25h24v24H0z" fill="none" />
-					  </svg>
-				   </a>
-				  </div>
-				</div>
-			  </div>
-			</section>
-			<section class="content">
-			  <div class="box">
-				<div class="cbinfo">
-				  <div id="gridcheckbox" class="md-checkbox"><input type="checkbox" name="gridlines" onclick="toggleGridDisp();" id="gcb"/><label for="gcb"> MGRS Overlay</label></div>
-				  <div id="coordinateInfo"></div>
-				</div>
-				<div class="switchinfo">
-				  <div class="style-inputs fillSwitch">
-					<section class="switch">
-					  <div class="mdc-switch">
-						<input type="checkbox" id="fill" class="mdc-switch__native-control" checked="">
-						<div class="mdc-switch__background">
-						  <div class="mdc-switch__knob"></div>
-						</div>
-					  </div>
-					  <label for="fill" class="mdc-switch-label">Fill Symbol</label>
-					</section>
-				  </div>
-				</div>
-				<div class="downloadButtons">
-
-				</div>
-			  </div>
-			  <p class="dragAndDropNotification">Drag and drop the symbol on the map</p>
-			  <div class="panels">
-				<div class="panel panel-2525c" id="panel-1" role="tabpanel" aria-hidden="true">
-				</div>
-			  </div>
-			</section>
-			<div class="option-inputs">
-			  <section id="demo-text-field-wrapper">
-				<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-					<input type="text" class="mdc-text-field__input" id="uniqueDesignation" maxlength="21" size="30">
-					<label for="uniqueDesignation" class="mdc-text-field__label">Unique Unit Designation</label>
-				</div>
-				<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-				  A text modifier for units, equipment, and installations that uniquely identifies a particular symbol or track number. Identifies
-				  acquisitions number when used with SIGINT symbology.
-				</p>
-			  </section>
-			  <section id="demo-text-field-wrapper">
-				<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-				  <input type="text" class="mdc-text-field__input" id="higherFormation" maxlength="21" size="30">
-				  <label for="higherFormation" class="mdc-text-field__label">Higher Formation</label>
-				</div>
-				<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-				  A text modifier for units that indicates number or title of higher echelon command (corps are designated by Roman numerals).
-				</p>
-			  </section>
+	<div class="mdc-layout-grid">
+		<div class="mdc-layout-grid__inner">
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9" id="map">
 			</div>
-
-			<div class="style-inputs">
-			  <section class="slider" width="50px">
-				<p style="color:rgba(0, 0, 0, .6)">Outline width</p>
-				<p class="mdc-text-field-helper-text" style="opacity:1;color: rgba(0, 0, 0, .38);">Width of outline, if any.</p>
-				<div id="outlineWidth" class="mdc-slider mdc-slider--discrete" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" data-step="1" aria-label="Select Value" width="50%">
-				  <div class="mdc-slider__track-container">
-					<div class="mdc-slider__track" style="transform: scaleX(0.2);"></div>
-				  </div>
-				  <div class="mdc-slider__thumb-container" style="transform: translateX(66px) translateX(-50%);">
-					<div class="mdc-slider__pin">
-					  <span class="mdc-slider__pin-value-marker">2</span>
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3" id="toolbar">
+				<section id="hidden">
+					<div class="demo-tabs__scroller">
+						<div id="tab-bar-scroller" class="mdc-tab-bar-scroller">
+							<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
+								<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll back button">
+									<svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+										<path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
+										<path d="M0-.5h24v24H0z" fill="none" />
+									</svg>
+								</a>
+							</div>
+							<div class="mdc-tab-bar-scroller__scroll-frame">
+								<nav id="scrollable-tab-bar" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar">
+									<a role="tab" aria-controls="panel-1" class="mdc-tab" href="#panel-1">MIL-STD-2525C</a>
+									<span class="mdc-tab-bar__indicator"></span>
+								</nav>
+							</div>
+							<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
+								<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll forward button">
+									<svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+										<path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
+										<path d="M0-.25h24v24H0z" fill="none" />
+									</svg>
+								</a>
+							</div>
+						</div>
 					</div>
-					<svg class="mdc-slider__thumb" width="21" height="21">
+				</section>
+				<section class="content">
+					<div class="box">
+						<div class="cbinfo">
+							<div id="gridcheckbox" class="md-checkbox"><input type="checkbox" name="gridlines" onclick="toggleGridDisp();"
+								 id="gcb" /><label for="gcb"> MGRS Overlay</label></div>
+							<div id="coordinateInfo"></div>
+						</div>
+						<div class="switchinfo">
+							<div class="style-inputs fillSwitch">
+								<section class="switch">
+									<div class="mdc-switch">
+										<input type="checkbox" id="fill" class="mdc-switch__native-control" checked="">
+										<div class="mdc-switch__background">
+											<div class="mdc-switch__knob"></div>
+										</div>
+									</div>
+									<label for="fill" class="mdc-switch-label">Fill Symbol</label>
+								</section>
+							</div>
+						</div>
+						<div class="downloadButtons">
+						</div>
+					</div>
+					<p class="dragAndDropNotification">Drag and drop the symbol on the map</p>
+					<div class="panels">
+						<div class="panel panel-2525c" id="panel-1" role="tabpanel" aria-hidden="true">
+						</div>
+					</div>
+				</section>
+				<div class="option-inputs">
+					<section id="demo-text-field-wrapper">
+						<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+							<input type="text" class="mdc-text-field__input" id="uniqueDesignation" maxlength="21" size="30">
+							<label for="uniqueDesignation" class="mdc-text-field__label">Unique Unit Designation</label>
+						</div>
+						<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
+							A text modifier for units, equipment, and installations that uniquely identifies a particular symbol or track
+							number. Identifies
+							acquisitions number when used with SIGINT symbology.
+						</p>
+					</section>
+					<section id="demo-text-field-wrapper">
+						<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+							<input type="text" class="mdc-text-field__input" id="higherFormation" maxlength="21" size="30">
+							<label for="higherFormation" class="mdc-text-field__label">Higher Formation</label>
+						</div>
+						<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
+							A text modifier for units that indicates number or title of higher echelon command (corps are designated by
+							Roman numerals).
+						</p>
+					</section>
+				</div>
+				<div class="style-inputs">
+					<section class="slider" width="50px">
+						<p style="color:rgba(0, 0, 0, .6)">Outline width</p>
+						<p class="mdc-text-field-helper-text" style="opacity:1;color: rgba(0, 0, 0, .38);">Width of outline, if any.</p>
+						<div id="outlineWidth" class="mdc-slider mdc-slider--discrete" tabindex="0" role="slider" aria-valuemin="0"
+						 aria-valuemax="10" aria-valuenow="0" data-step="1" aria-label="Select Value" width="50%">
+							<div class="mdc-slider__track-container">
+								<div class="mdc-slider__track" style="transform: scaleX(0.2);"></div>
+							</div>
+							<div class="mdc-slider__thumb-container" style="transform: translateX(66px) translateX(-50%);">
+								<div class="mdc-slider__pin">
+									<span class="mdc-slider__pin-value-marker">2</span>
+								</div>
+								<svg class="mdc-slider__thumb" width="21" height="21">
 									<circle cx="10.5" cy="10.5" r="7.875"></circle>
 								</svg>
-					<div class="mdc-slider__focus-ring"></div>
-				  </div>
+								<div class="mdc-slider__focus-ring"></div>
+							</div>
+						</div>
+					</section>
+					<div class="select">
+						<div id="outlineColor" class="mdc-select" role="listbox">
+							<div class="mdc-select__surface mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" tabindex="0"
+							 style="width: 90px; --mdc-ripple-fg-size:198px; --mdc-ripple-fg-scale:1.741; --mdc-ripple-fg-translate-start:8.66406px, -62.4063px; --mdc-ripple-fg-translate-end:66px, -71px;">
+								<div class="mdc-select__label mdc-select__label--float-above">Outline color</div>
+								<div class="mdc-select__selected-text"></div>
+								<div class="mdc-select__bottom-line"></div>
+							</div>
+							<div class="mdc-menu mdc-select__menu" style="left: 1792.19px; top: 360.781px; transform-origin: center 392px 0px;">
+								<ul class="mdc-list mdc-menu__items">
+									<li class="mdc-list-item" role="option" tabindex="0">
+										Aqua
+									</li>
+									<li class="mdc-list-item" role="option" tabindex="0">
+										Blue
+									</li>
+									<li class="mdc-list-item" role="option" tabindex="0">
+										Gray
+									</li>
+									<li class="mdc-list-item" role="option" tabindex="0">
+										Green
+									</li>
+									<li class="mdc-list-item" role="option" tabindex="0">
+										Maroon
+									</li>
+									<li class="mdc-list-item" role="option" tabindex="0">
+										Red
+									</li>
+									<li class="mdc-list-item" role="option" tabindex="0">
+										Yellow
+									</li>
+									<li class="mdc-list-item" role="option" tabindex="0">
+										White
+									</li>
+									<li id="rgb(239, 239, 239)" class="mdc-list-item" role="option" tabindex="0">
+										Offwhite
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
 				</div>
-			  </section>
-
-			  <div class="select">
-				<div id="outlineColor" class="mdc-select" role="listbox">
-				  <div class="mdc-select__surface mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" tabindex="0" style="width: 90px; --mdc-ripple-fg-size:198px; --mdc-ripple-fg-scale:1.741; --mdc-ripple-fg-translate-start:8.66406px, -62.4063px; --mdc-ripple-fg-translate-end:66px, -71px;">
-					<div class="mdc-select__label mdc-select__label--float-above">Outline color</div>
-					<div class="mdc-select__selected-text"></div>
-					<div class="mdc-select__bottom-line"></div>
-				  </div>
-				  <div class="mdc-menu mdc-select__menu" style="left: 1792.19px; top: 360.781px; transform-origin: center 392px 0px;">
-					<ul class="mdc-list mdc-menu__items">
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						Aqua
-					  </li>
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						Blue
-					  </li>
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						Gray
-					  </li>
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						Green
-					  </li>
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						Maroon
-					  </li>
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						Red
-					  </li>
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						Yellow
-					  </li>
-					  <li class="mdc-list-item" role="option" tabindex="0">
-						White
-					  </li>
-					  <li id="rgb(239, 239, 239)" class="mdc-list-item" role="option" tabindex="0">
-						Offwhite
-					  </li>
-					</ul>
-				  </div>
-				</div>
-			  </div>
-
 			</div>
-		  </div>
 		</div>
 	</div>
-<script src="dist/js/app-footer.min.js"></script>
+	<script src="dist/js/app-footer.min.js"></script>
 </body>
 </html>
