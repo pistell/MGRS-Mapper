@@ -5,7 +5,7 @@ Drag and drop custom generated NATO military symbols onto Google Maps with an MG
 
 ## Live Demo
 
-[Click Here See it in Action](https://pistell.github.io/MGRS-Mapper/index.html)
+[Click Here See it in Action](http://mgrs-mapper.com/)
 
 ## About
 
