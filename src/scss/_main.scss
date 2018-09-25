@@ -311,8 +311,10 @@ h2 {
 
 div#coordinateInfo {
 	padding-top: 10px;
-	font-family: "Sarpanch";
+	font-family: "Roboto";
 	font-weight: 400;
+	color: #E5E8EC;
+	letter-spacing: 0.5px;
 }
 
 .style-inputs section {
@@ -370,6 +372,8 @@ div#coordinateInfo {
 	vertical-align: top;
 	clear: both;
 	padding-left: 1px;
+	color: #E5E8EC;
+	font-size: 1.1rem;
 }
 
 .md-checkbox label:not(:empty) {
@@ -579,6 +583,8 @@ a {
 .mdc-switch-label {
 	font-family: "Sarpanch";
 	font-weight: 400;
+	color: #E5E8EC;
+	font-size: 1.1rem;
 }
 
 .infowindow {

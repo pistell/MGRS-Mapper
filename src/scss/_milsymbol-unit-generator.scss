@@ -5634,8 +5634,8 @@ a.mdc-list-item {
 
 .mdc-select:not(.mdc-select--disabled) .mdc-select__selected-text,
 .mdc-select:not(.mdc-select--disabled) .mdc-select__surface {
-	color: rgba(0, 0, 0, 0.87);
-	color: var(--mdc-theme-text-primary-on-light, rgba(0, 0, 0, 0.87));
+	color: #E5E8EC;
+	font-size: 1.1rem;
 }
 
 .mdc-select:not(.mdc-select--disabled) .mdc-select__label {
@@ -7978,25 +7978,29 @@ a.mdc-list-item {
 .mdc-text-field:not(.mdc-text-field--disabled)
 	.mdc-text-field__input::-webkit-input-placeholder,
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__label {
-	color: rgba(0, 0, 0, 0.6);
+	color: #E5E8EC;
+	font-size: 1.1rem;
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled)
 	.mdc-text-field__input::-moz-placeholder,
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__label {
-	color: rgba(0, 0, 0, 0.6);
+	color: #E5E8EC;
+	font-size: 1.1rem;
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled)
 	.mdc-text-field__input:-ms-input-placeholder,
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__label {
-	color: rgba(0, 0, 0, 0.6);
+	color: #E5E8EC;
+	font-size: 1.1rem;
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled)
 	.mdc-text-field__input::placeholder,
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__label {
-	color: rgba(0, 0, 0, 0.6);
+	color: #E5E8EC;
+	font-size: 1.1rem;
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-text {
