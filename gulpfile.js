@@ -61,7 +61,7 @@ gulp.task( 'scripts:footer', function( cb ) {
 			concat('app-footer.js'),
 			uglify({
 				mangle: {
-					except: ['milsymbolUnitGenerator']
+					reserved: ['milsymbolUnitGenerator']
 				}
 			}),
 			rename({ suffix: '.min' }),
