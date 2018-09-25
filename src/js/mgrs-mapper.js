@@ -70,10 +70,8 @@ $(window).on('load', function() {
 					iw.open(map, this);
 				});
 
-				ga('send', 'event', {
-						eventCategory: 'Marker',
-						eventAction: 'Dropped',
-						eventLabel: newMarker.funcid
+				gtag('event', 'Marker Dropped', {
+				  'unit': newMaker.funcid
 				});
 				//This listener is only for retreiving the Elevation
 				google.maps.event.addListener(newMarker, 'click', function(event) {
