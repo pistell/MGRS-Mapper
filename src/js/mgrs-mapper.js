@@ -69,7 +69,12 @@ $(window).on('load', function() {
 					iw.setContent(theCurrentLatLon + theCurrentMGRS);
 					iw.open(map, this);
 				});
-				ga('send', 'event', 'Marker', 'Marker Dropped', newMaker.funcid);
+
+				ga('send', 'event', {
+						eventCategory: 'Marker',
+						eventAction: 'Dropped',
+						eventLabel: newMarker.funcid
+				});
 				//This listener is only for retreiving the Elevation
 				google.maps.event.addListener(newMarker, 'click', function(event) {
 					displayLocationElevation(event.latLng, elevator, iw);
@@ -99,7 +104,6 @@ $(window).on('load', function() {
 				}
 
 				google.maps.event.addListener(newMarker, "dragstart", function() {
-					//if (contextMenu) contextMenu.hide(); //Closes the Context Menu when the Marker is dragged
 					actual = newMarker;
 					if (actual == newMarker) iw.close();
 					zIndex += 1;
