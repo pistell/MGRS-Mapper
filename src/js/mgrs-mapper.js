@@ -69,7 +69,7 @@ $(window).on('load', function() {
 					iw.setContent(theCurrentLatLon + theCurrentMGRS);
 					iw.open(map, this);
 				});
-
+				ga('send', 'event', 'Marker', 'Marker Dropped', newMaker.funcid);
 				//This listener is only for retreiving the Elevation
 				google.maps.event.addListener(newMarker, 'click', function(event) {
 					displayLocationElevation(event.latLng, elevator, iw);
