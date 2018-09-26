@@ -92,18 +92,6 @@ $(window).on('load', function() {
 					iw.setContent(theCurrentLatLon + theCurrentMGRS);
 					iw.open(map, this);
 				});
-				//Testing GA Events for UX research
-				gtag('event', 'Marker Dropped', {
-				  'unit' : newMarker.funcid,
-				  'affiliation' : document.querySelectorAll(".mdc-select__selected-text")[1].innerText,
-				  'HQ' : document.querySelectorAll(".mdc-select__selected-text")[5].innerText,
-				  'unit_size' : document.querySelectorAll(".mdc-select__selected-text")[6].innerText,
-				  'unique_unit_designation' : document.querySelector("#uniqueDesignation").value,
-				  'higher_formation' : document.querySelector("#higherFormation").value,
-				  'symbol_outline_width' : document.querySelector("#outlineWidth").attributes[6].value,
-				  'symbol_outline_color' : document.querySelector("#outlineColor .mdc-select__selected-text").innerText,
-				  'search_string' : document.querySelector(".search input").value
-				});
 				//This listener is only for retreiving the Elevation
 				google.maps.event.addListener(newMarker, 'click', function(event) {
 					displayLocationElevation(event.latLng, elevator, iw);
