@@ -58,6 +58,29 @@ $(window).on('load', function() {
 				});
 				markers.push(newMarker);
 
+				//Set variables for Google Analytics custom event
+				var unit = newMarker.funcid;
+				var affiliation = document.querySelectorAll('.mdc-select__selected-text')[1].innerText;
+				var hq_selected = document.querySelectorAll('.mdc-select__selected-text')[5].innerText;
+				var unit_size = document.querySelectorAll('.mdc-select__selected-text')[6].innerText;
+				var unique_unit_designation = document.querySelector('#uniqueDesignation').value;
+				var higher_formation =  document.querySelector('#higherFormation').value;
+				var symbol_outline_width = document.querySelector('#outlineWidth').attributes[6].value;
+				var symbol_outline_color = document.querySelector('#outlineColor .mdc-select__selected-text').innerText;
+				var search_string = document.querySelector('.search input').value;
+				//Push unit data to GA
+				gtag('event', 'Marker Dropped', {
+				  'unit' : unit,
+				  'affiliation' : affiliation,
+				  'hq_selected' : hq_selected,
+				  'unit_size' : unit_size,
+				  'unique_unit_designation' : unique_unit_designation,
+				  'higher_formation' : higher_formation,
+				  'symbol_outline_width' : symbol_outline_width,
+				  'symbol_outline_color' : symbol_outline_color,
+				  'search_string' : search_string
+				});
+
 				newMarker.icon.scaledSize = new google.maps.Size(getNewWidth, getNewHeight);
 				google.maps.event.addListener(newMarker, "click", function(e) {
 					actual = newMarker;
@@ -69,8 +92,18 @@ $(window).on('load', function() {
 					iw.setContent(theCurrentLatLon + theCurrentMGRS);
 					iw.open(map, this);
 				});
-
-			
+				//Testing GA Events for UX research
+				gtag('event', 'Marker Dropped', {
+				  'unit' : newMarker.funcid,
+				  'affiliation' : document.querySelectorAll(".mdc-select__selected-text")[1].innerText,
+				  'HQ' : document.querySelectorAll(".mdc-select__selected-text")[5].innerText,
+				  'unit_size' : document.querySelectorAll(".mdc-select__selected-text")[6].innerText,
+				  'unique_unit_designation' : document.querySelector("#uniqueDesignation").value,
+				  'higher_formation' : document.querySelector("#higherFormation").value,
+				  'symbol_outline_width' : document.querySelector("#outlineWidth").attributes[6].value,
+				  'symbol_outline_color' : document.querySelector("#outlineColor .mdc-select__selected-text").innerText,
+				  'search_string' : document.querySelector(".search input").value
+				});
 				//This listener is only for retreiving the Elevation
 				google.maps.event.addListener(newMarker, 'click', function(event) {
 					displayLocationElevation(event.latLng, elevator, iw);

@@ -242,7 +242,19 @@
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
-	  gtag('config', 'UA-126257594-1');
+		gtag('config', 'UA-126257594-1', {
+			'custom_map': {
+				'dimension1' : 'unit',
+				'dimension2' : 'affiliation',
+				'dimension3' : 'hq_selected',
+				'dimension4' : 'unit_size',
+				'dimension5' : 'unique_unit_designation',
+				'dimension6' : 'higher_formation',
+				'dimension7' : 'symbol_outline_width',
+				'dimension8' : 'symbol_outline_color',
+				'dimension9' : 'search_string'
+			}
+		});
 	</script>
 </body>
 </html>
