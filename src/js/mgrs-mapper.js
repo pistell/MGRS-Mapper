@@ -70,12 +70,7 @@ $(window).on('load', function() {
 					iw.open(map, this);
 				});
 
-				(function () {
-					gtag('event', 'Marker Dropped', {
-						'unit': newMaker.funcid
-					});
-				})();
-
+			
 				//This listener is only for retreiving the Elevation
 				google.maps.event.addListener(newMarker, 'click', function(event) {
 					displayLocationElevation(event.latLng, elevator, iw);
