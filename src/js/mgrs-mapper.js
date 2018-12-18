@@ -109,6 +109,7 @@ $(window).on('load', function() {
 								var theCurrentElevation = "<div class='Elevation'><h6><span style='color: red;'>Elevation: <\/span>" + parseInt(results[0].elevation) + " meters<\/h6><\/div>";
 								theCurrentElevation += "<h6><span style='color: red;'>Unit: <\/span>" + newMarker.funcid + "</h6>" // Append the function ID to the unit window!
 								theCurrentElevation += "<input type = 'button' value = 'Delete' onclick = 'DeleteMarker(" + newMarker.id + ")'/>";
+								theCurrentElevation += "<input type='checkbox' id='lockBox' value='LockScale' onclick='lockScale()'/><label for='lockBox' style='font-size:15px;'> Lock Icon Scale (beta)</label>"; //Add a checkbox for Locking Scale
 								var elem = document.querySelector(".MGRS");
 								elem.innerHTML = elem.innerHTML + theCurrentElevation;
 							} else {
@@ -174,4 +175,24 @@ function DeleteMarker(id) {
 			return;
 		}
 	}
+}
+
+
+//add a zoom change listener, so you can resize the icon based on the zoom level
+function lockScale(){
+	document.querySelector("#lockBox").style.display = 'none';
+	document.querySelector('label[for="lockBox"]').style.display = 'none'; //Hide the box and label after click (temp fix)
+	google.maps.event.addListener(map, 'zoom_changed', function() {
+	var zoom = map.getZoom();
+	markerWidth = (zoom / 3) * 10
+	markerHeight = (zoom / 2) * 10
+	//Iterate through all markers and resize them
+	markers.forEach(function(marker){
+		console.log(marker);
+		marker.setIcon({
+			url: image.toString(),
+			scaledSize: new google.maps.Size(markerHeight, markerWidth)
+		});
+	});			    
+  });
 }
