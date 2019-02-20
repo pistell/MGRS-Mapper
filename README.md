@@ -24,6 +24,7 @@ Open index.html in your text editor and replace Google Map's API key with your o
 
 ## Libraries, Plugins and Repositories Used
 
++ [Material Design Components](https://material.io)
 + [jQuery 3.3.1](http://jquery.com)
 + [jQuery UI 1.11.1](http://jqueryui.com/)
 + [jQuery UI Touch Punch 0.2.3](http://touchpunch.furf.com/)
