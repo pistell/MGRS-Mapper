@@ -1,287 +1,635 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="application-name" content="MGRS Mapper">
-<title>MGRS Mapper</title>
-<meta name="description" content="The best Hawg View alternative! Create maps with NATO military symbols with an MGRS overlay">
-<meta name="author" content="James Pistell">
-<link rel="stylesheet" href="dist/css/app.min.css">
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
-<link href="https://fonts.googleapis.com/css?family=Sarpanch:400,900" rel="stylesheet">
-<meta property="og:type" content="website">
-<meta property="og:title" content="MGRS Mapper | Map Scenario Tool for Junior Leaders">
-<meta property="og:description" content="Generate your custom military map symbol and drag it onto Google Maps and enable the MGRS overlay to quickly build concept scenarios.">
-<meta property="og:url" content="http://mgrs-mapper.com">
-<meta property="og:image" content="http://i.imgur.com/lozzh2W.jpg">
-<link rel="apple-touch-icon" sizes="152x152" href="img/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-<link rel="manifest" href="img/site.webmanifest">
-<link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
-<link rel="shortcut icon" href="img/favicon.ico">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-config" content="img/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
-<meta name="google-site-verification" content="Ip1OiB4bECUIV-sBrR7vqVKDFTAN-czbkqPqZ3Sicxk" />
-<meta name="msvalidate.01" content="AB2FC2458B940A3E19E78FF673FE5BFE" />
-<script>
-	// Polyfill for nodelist.forEach in IE
-	if (window.NodeList && !NodeList.prototype.forEach) {
-		NodeList.prototype.forEach = function (callback, thisArg) {
-			thisArg = thisArg || window;
-			for (var i = 0; i < this.length; i++) {
-				callback.call(thisArg, this[i], i, this);
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="application-name" content="MGRS Mapper" />
+		<title>MGRS Mapper</title>
+		<meta
+			name="description"
+			content="The best Hawg View alternative! Create maps with NATO military symbols with an MGRS overlay"
+		/>
+		<meta name="author" content="James Pistell" />
+		<link rel="stylesheet" href="dist/css/app.min.css" />
+		<link
+			rel="stylesheet"
+			href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Sarpanch:400,900"
+			rel="stylesheet"
+		/>
+		<meta property="og:type" content="website" />
+		<meta
+			property="og:title"
+			content="MGRS Mapper | Map Scenario Tool for Junior Leaders"
+		/>
+		<meta
+			property="og:description"
+			content="Generate your custom military map symbol and drag it onto Google Maps and enable the MGRS overlay to quickly build concept scenarios."
+		/>
+		<meta property="og:url" content="http://mgrs-mapper.com" />
+		<meta property="og:image" content="http://i.imgur.com/lozzh2W.jpg" />
+		<link
+			rel="apple-touch-icon"
+			sizes="152x152"
+			href="img/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="img/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="img/favicon-16x16.png"
+		/>
+		<link rel="manifest" href="img/site.webmanifest" />
+		<link
+			rel="mask-icon"
+			href="img/safari-pinned-tab.svg"
+			color="#5bbad5"
+		/>
+		<link rel="shortcut icon" href="img/favicon.ico" />
+		<meta name="msapplication-TileColor" content="#da532c" />
+		<meta name="msapplication-config" content="img/browserconfig.xml" />
+		<meta name="theme-color" content="#ffffff" />
+		<meta
+			name="google-site-verification"
+			content="Ip1OiB4bECUIV-sBrR7vqVKDFTAN-czbkqPqZ3Sicxk"
+		/>
+		<meta name="msvalidate.01" content="AB2FC2458B940A3E19E78FF673FE5BFE" />
+		<script>
+			// Polyfill for nodelist.forEach in IE
+			if (window.NodeList && !NodeList.prototype.forEach) {
+				NodeList.prototype.forEach = function(callback, thisArg) {
+					thisArg = thisArg || window;
+					for (var i = 0; i < this.length; i++) {
+						callback.call(thisArg, this[i], i, this);
+					}
+				};
 			}
-		};
-	}
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsOmSefgnI4WnFNYgQXE_n5pJyPudm8zM&libraries=geometry,places&ext=.js"></script>
-<script src="dist/js/app-header.min.js"></script>
-<script src="dist/js/app-symbols.min.js"></script>
-</head>
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '307428923203283');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=307428923203283&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
-<body onload="milsymbolUnitGenerator(); initialize();" class="mdc-typography">
-	<div class="flex-container">
-		<div class="flex-item-1">
-			<img src="https://pistell.github.io/MGRS-Mapper/img/ATrp.png" alt="Alpha Troop 2-101 Cavalry" width="200px">
-		</div>
-		<div class="flex-item-2">
-			<h1>MGRS Mapper</h1>
-		</div>
-		<div class="flex-item-3">
-			<a href="http://jamespistell.com" target="_blank">APPLICATION BY CPT JAMES PISTELL</a>
-		</div>
-	</div>
-	<div class="mdc-layout-grid content-area">
-		<div class="mdc-layout-grid__inner">
-			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9" id="map">
-			</div>
-			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3" id="toolbar">
-				<section id="hidden">
-					<div class="demo-tabs__scroller">
-						<div id="tab-bar-scroller" class="mdc-tab-bar-scroller">
-							<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
-								<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll back button">
-									<svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-										<path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
-										<path d="M0-.5h24v24H0z" fill="none" />
-									</svg>
-								</a>
-							</div>
-							<div class="mdc-tab-bar-scroller__scroll-frame">
-								<nav id="scrollable-tab-bar" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar">
-									<a role="tab" aria-controls="panel-1" class="mdc-tab" href="#panel-1">MIL-STD-2525C</a>
-									<span class="mdc-tab-bar__indicator"></span>
-								</nav>
-							</div>
-							<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
-								<a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="#" aria-label="scroll forward button">
-									<svg fill="rgba(0, 0, 0, .54)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-										<path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
-										<path d="M0-.25h24v24H0z" fill="none" />
-									</svg>
-								</a>
-							</div>
-						</div>
-					</div>
-				</section>
-				<section class="content">
-					<div class="box">
-						<div class="cbinfo">
-							<div id="gridcheckbox" class="md-checkbox"><input type="checkbox" name="gridlines" onclick="toggleGridDisp();"
-								 id="gcb" /><label for="gcb"> MGRS Overlay</label></div>
-							<div id="coordinateInfo"></div>
-						</div>
-						<div class="switchinfo">
-							<div class="style-inputs fillSwitch">
-								<section class="switch">
-									<div class="mdc-switch">
-										<input type="checkbox" id="fill" class="mdc-switch__native-control" checked="">
-										<div class="mdc-switch__background">
-											<div class="mdc-switch__knob"></div>
-										</div>
-									</div>
-									<label for="fill" class="mdc-switch-label">Fill Symbol</label>
-								</section>
-							</div>
-						</div>
-						<div class="downloadButtons">
-						</div>
-					</div>
-					<p class="dragAndDropNotification">Drag and drop the symbol on the map</p>
-					<div class="panels">
-						<div class="panel panel-2525c" id="panel-1" role="tabpanel" aria-hidden="true">
-						</div>
-					</div>
-				</section>
-				<div class="option-inputs">
-					<section id="demo-text-field-wrapper">
-						<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-							<input type="text" class="mdc-text-field__input" id="uniqueDesignation" maxlength="21" size="30">
-							<label for="uniqueDesignation" class="mdc-text-field__label">Unique Unit Designation</label>
-						</div>
-						<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-							A text modifier for units, equipment, and installations that uniquely identifies a particular symbol or track
-							number. Identifies
-							acquisitions number when used with SIGINT symbology.
-						</p>
-					</section>
-					<section id="demo-text-field-wrapper">
-						<div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-							<input type="text" class="mdc-text-field__input" id="higherFormation" maxlength="21" size="30">
-							<label for="higherFormation" class="mdc-text-field__label">Higher Formation</label>
-						</div>
-						<p id="my-text-field-helper-text" class="mdc-text-field-helper-text" style="display: block;" aria-hidden="true">
-							A text modifier for units that indicates number or title of higher echelon command (corps are designated by
-							Roman numerals).
-						</p>
-					</section>
-				</div>
-				<div class="style-inputs">
-					<section class="slider" width="50px">
-						<p style="color:#E5E8EC;font-size: 1.1rem;">Symbol Outline Options</p>
-						<p class="mdc-text-field-helper-text" style="opacity:1;color: rgba(0, 0, 0, .38);">Width of outline, if any.</p>
-						<div id="outlineWidth" class="mdc-slider mdc-slider--discrete" tabindex="0" role="slider" aria-valuemin="0"
-						 aria-valuemax="10" aria-valuenow="0" data-step="1" aria-label="Select Value" width="50%">
-							<div class="mdc-slider__track-container">
-								<div class="mdc-slider__track" style="transform: scaleX(0.2);"></div>
-							</div>
-							<div class="mdc-slider__thumb-container" style="transform: translateX(66px) translateX(-50%);">
-								<div class="mdc-slider__pin">
-									<span class="mdc-slider__pin-value-marker">2</span>
-								</div>
-								<svg class="mdc-slider__thumb" width="21" height="21">
-									<circle cx="10.5" cy="10.5" r="7.875"></circle>
-								</svg>
-
-								<div class="mdc-slider__focus-ring"></div>
-							</div>
-						</div>
-					</section>
-					<div class="select">
-						<div id="outlineColor" class="mdc-select" role="listbox">
-							<div class="mdc-select__surface mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" tabindex="0"
-							 style="width: 90px; --mdc-ripple-fg-size:198px; --mdc-ripple-fg-scale:1.741; --mdc-ripple-fg-translate-start:8.66406px, -62.4063px; --mdc-ripple-fg-translate-end:66px, -71px;">
-								<div class="mdc-select__label mdc-select__label--float-above">Outline color</div>
-								<div class="mdc-select__selected-text"></div>
-								<div class="mdc-select__bottom-line"></div>
-							</div>
-							<div class="mdc-menu mdc-select__menu" style="left: 1792.19px; top: 360.781px; transform-origin: center 392px 0px;">
-								<ul class="mdc-list mdc-menu__items">
-									<li class="mdc-list-item" role="option" tabindex="0">
-										Aqua
-									</li>
-									<li class="mdc-list-item" role="option" tabindex="0">
-										Blue
-									</li>
-									<li class="mdc-list-item" role="option" tabindex="0">
-										Gray
-									</li>
-									<li class="mdc-list-item" role="option" tabindex="0">
-										Green
-									</li>
-									<li class="mdc-list-item" role="option" tabindex="0">
-										Maroon
-									</li>
-									<li class="mdc-list-item" role="option" tabindex="0">
-										Red
-									</li>
-									<li class="mdc-list-item" role="option" tabindex="0">
-										Yellow
-									</li>
-									<li class="mdc-list-item" role="option" tabindex="0">
-										White
-									</li>
-									<li id="rgb(239, 239, 239)" class="mdc-list-item" role="option" tabindex="0">
-										Offwhite
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<p>Create any military map symbol (MIL-STD 2525C) and add custom presets if you choose. Drag the symbol onto
-						Google Maps and enable the MGRS overlay for operations planning. Furthermore, you can download the symbols
-						individually for use in
-						other applications.</p>
-					<div class="contactIcons" style="justify-content: space-evenly; display: flex; align-items: center; padding-bottom: 20px;">
-						<a href="https://www.facebook.com/mgrsmapper/" target="_blank">
-						  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 510 510">
-							<title>Follow MGRS Mapper on Facebook for updates</title>
-							<path d="M459 0H51C23 0 0 23 0 51v408c0 28 23 51 51 51h408c28 0 51-23 51-51V51c0-28-23-51-51-51zm-25.5 51v76.5h-51c-15.3 0-25.5 10.2-25.5 25.5v51h76.5v76.5H357V459h-76.5V280.5h-51V204h51v-63.8A90.3 90.3 0 01369.8 51h63.7z"></path>
-						  </svg>
-						</a>
-						<a href="mailto:jamespistell@gmail.com">
-							<svg viewBox="0 0 40 32" aria-labelledby="akfsi-material-email-title" id="si-material-email" width="40px" height="40px">
-								<title id="akfsi-material-email-title">icon email</title>
-								<path d="M36 0H4C1.79 0 .02 1.79.02 4L0 28c0 2.21 1.79 4 4 4h32c2.21 0 4-1.79 4-4V4c0-2.21-1.79-4-4-4zm0 8L20 18 4 8V4l16 10L36 4v4z"></path>
-							</svg>
-						</a>
-						<a href="https://github.com/pistell/MGRS-Mapper" target="_blank">
-							<svg viewBox="0 0 22.436996459960938 21.97500228881836" aria-labelledby="ctsi-dev-github_badge-title" id="si-dev-github_badge"
-							 width="40px" height="40px">
-								<title id="ctsi-dev-github_badge-title">icon github_badge</title>
-								<path d="M11.219 0C5.023 0 0 5.023 0 11.219c0 4.957 3.214 9.162 7.673 10.645.561.103.766-.244.766-.54 0-.267-.01-1.152-.016-2.088-3.12.678-3.779-1.323-3.779-1.323-.511-1.296-1.246-1.641-1.246-1.641-1.02-.696.077-.682.077-.682 1.126.078 1.72 1.156 1.72 1.156 1.001 1.715 2.627 1.219 3.265.931.102-.723.392-1.219.712-1.498-2.49-.283-5.11-1.246-5.11-5.545 0-1.226.438-2.225 1.154-3.011-.114-.285-.501-1.426.111-2.97 0 0 .941-.301 3.085 1.15.894-.25 1.854-.373 2.807-.377.953.004 1.913.129 2.809.379 2.14-1.453 3.083-1.15 3.083-1.15.613 1.545.227 2.685.112 2.969.719.785 1.153 1.785 1.153 3.011 0 4.31-2.624 5.259-5.123 5.537.404.348.761 1.03.761 2.076 0 1.5-.015 2.709-.015 3.079 0 .299.204.648.772.538 4.455-1.486 7.666-5.69 7.666-10.645 0-6.195-5.023-11.219-11.219-11.219z"></path>
-							</svg>
-						</a>
-						<a href="https://www.linkedin.com/in/jamespistell/" target="_blank">
-							<svg viewBox="0 0 514.3589477539062 491.5210266113281" aria-labelledby="cdsi-zocial-linkedin-title" id="si-zocial-linkedin"
-							 width="40px" height="40px">
-								<title id="cdsi-zocial-linkedin-title">icon linkedin</title>
-								<path d="M0 57.096c0-16.55 5.793-30.203 17.377-40.96C28.962 5.379 44.022 0 62.557 0c18.204 0 32.934 5.296 44.187 15.888 11.585 10.922 17.377 25.155 17.377 42.698 0 15.888-5.626 29.127-16.88 39.719-11.585 10.922-26.81 16.384-45.676 16.384h-.497c-18.205 0-32.934-5.461-44.187-16.384C5.627 87.382.001 73.645.001 57.096zm6.454 434.425V159.869h110.22v331.652H6.454zm171.288 0c.662-99.959.993-177.576.993-232.852s-.331-88.209-.993-98.8h110.22v47.165l-.496.993h.496v-.993c23.831-36.74 57.096-55.11 99.794-55.11 38.063 0 68.68 12.661 91.85 37.982 23.168 25.32 34.753 62.474 34.753 111.46V491.52h-110.22V314.275c0-49.98-18.535-74.97-55.606-74.97-14.233 0-26.065 3.89-35.498 11.668-9.434 7.778-16.468 17.294-21.102 28.548-2.648 6.289-3.972 15.226-3.972 26.81V491.52h-110.22z"></path>
-							</svg>
-						</a>
-						<a href="http://jamespistell.com" target="_blank">
-							<svg viewBox="0 0 75 75" aria-labelledby="kosi-foundation-web-title" id="si-foundation-web" width="40px" height="40px">
-								<title id="kosi-foundation-web-title">icon web</title>
-								<path d="M37.5 0C16.788 0 0 16.793 0 37.502 0 58.212 16.788 75 37.5 75S75 58.212 75 37.502C75 16.793 58.212 0 37.5 0zM10.397 42.469h5.752a37.328 37.328 0 0 0 8.826 19.569c-7.501-3.844-13.015-11.022-14.578-19.569zm5.752-9.939h-5.752c1.564-8.546 7.078-15.724 14.579-19.568a37.33 37.33 0 0 0-8.827 19.568zM32.53 55.559a27.468 27.468 0 0 1-6.313-13.089h6.313v13.089zm0-23.029h-6.313a27.474 27.474 0 0 1 6.313-13.088V32.53zm32.072 0h-5.751a37.328 37.328 0 0 0-8.825-19.567c7.499 3.845 13.013 11.023 14.576 19.567zM42.47 55.557V42.469h6.313a27.487 27.487 0 0 1-6.313 13.088zm0-23.027V19.441a27.468 27.468 0 0 1 6.313 13.089H42.47zm7.553 29.509a37.33 37.33 0 0 0 8.828-19.57h5.752c-1.563 8.548-7.078 15.726-14.58 19.57z"></path>
-							</svg>
-						</a>
-					</div>
-					<p>Questions? Email me at JamesPistell@gmail.com</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script src="dist/js/app-footer.min.js"></script>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126257594-1"></script>
+		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsOmSefgnI4WnFNYgQXE_n5pJyPudm8zM&libraries=geometry,places&ext=.js"></script>
+		<script src="dist/js/app-header.min.js"></script>
+		<script src="dist/js/app-symbols.min.js"></script>
+	</head>
+	<!-- Facebook Pixel Code -->
 	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-		gtag('config', 'UA-126257594-1', {
-			'custom_map': {
-				'dimension1' : 'unit',
-				'dimension2' : 'affiliation',
-				'dimension3' : 'hq_selected',
-				'dimension4' : 'unit_size',
-				'dimension5' : 'unique_unit_designation',
-				'dimension6' : 'higher_formation',
-				'dimension7' : 'symbol_outline_width',
-				'dimension8' : 'symbol_outline_color',
-				'dimension9' : 'search_string'
-			}
-		});
+		!(function(f, b, e, v, n, t, s) {
+			if (f.fbq) return;
+			n = f.fbq = function() {
+				n.callMethod
+					? n.callMethod.apply(n, arguments)
+					: n.queue.push(arguments);
+			};
+			if (!f._fbq) f._fbq = n;
+			n.push = n;
+			n.loaded = !0;
+			n.version = "2.0";
+			n.queue = [];
+			t = b.createElement(e);
+			t.async = !0;
+			t.src = v;
+			s = b.getElementsByTagName(e)[0];
+			s.parentNode.insertBefore(t, s);
+		})(
+			window,
+			document,
+			"script",
+			"https://connect.facebook.net/en_US/fbevents.js"
+		);
+		fbq("init", "307428923203283");
+		fbq("track", "PageView");
 	</script>
-</body>
+	<noscript
+		><img
+			height="1"
+			width="1"
+			style="display:none"
+			src="https://www.facebook.com/tr?id=307428923203283&ev=PageView&noscript=1"
+	/></noscript>
+	<!-- End Facebook Pixel Code -->
+	<body
+		onload="milsymbolUnitGenerator(); initialize();"
+		class="mdc-typography"
+	>
+		<div
+			class="top-head fixed-top"
+			style="width: 100%; padding:10px; float:left"
+		>
+			<a href="./new/index.html"
+				>Click here to Beta test the new version of MGRS-Mapper</a
+			>
+			<span
+				class="float-right"
+				style="float:right; padding-right:50px;"
+				onClick="this.parentElement.remove()"
+				>X</span
+			>
+		</div>
+		<div class="flex-container">
+			<div class="flex-item-1">
+				<img
+					src="https://pistell.github.io/MGRS-Mapper/img/ATrp.png"
+					alt="Alpha Troop 2-101 Cavalry"
+					width="200px"
+				/>
+			</div>
+			<div class="flex-item-2">
+				<h1>MGRS Mapper</h1>
+			</div>
+			<div class="flex-item-3">
+				<a href="http://jamespistell.com" target="_blank"
+					>APPLICATION BY CPT JAMES PISTELL</a
+				>
+			</div>
+		</div>
+		<div class="mdc-layout-grid content-area">
+			<div class="mdc-layout-grid__inner">
+				<div
+					class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9"
+					id="map"
+				></div>
+				<div
+					class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3"
+					id="toolbar"
+				>
+					<section id="hidden">
+						<div class="demo-tabs__scroller">
+							<div
+								id="tab-bar-scroller"
+								class="mdc-tab-bar-scroller"
+							>
+								<div
+									class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back"
+								>
+									<a
+										class="mdc-tab-bar-scroller__indicator__inner material-icons"
+										href="#"
+										aria-label="scroll back button"
+									>
+										<svg
+											fill="rgba(0, 0, 0, .54)"
+											height="24"
+											viewBox="0 0 24 24"
+											width="24"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+											/>
+											<path
+												d="M0-.5h24v24H0z"
+												fill="none"
+											/>
+										</svg>
+									</a>
+								</div>
+								<div class="mdc-tab-bar-scroller__scroll-frame">
+									<nav
+										id="scrollable-tab-bar"
+										class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs custom-indicator-tab-bar"
+									>
+										<a
+											role="tab"
+											aria-controls="panel-1"
+											class="mdc-tab"
+											href="#panel-1"
+											>MIL-STD-2525C</a
+										>
+										<span
+											class="mdc-tab-bar__indicator"
+										></span>
+									</nav>
+								</div>
+								<div
+									class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward"
+								>
+									<a
+										class="mdc-tab-bar-scroller__indicator__inner material-icons"
+										href="#"
+										aria-label="scroll forward button"
+									>
+										<svg
+											fill="rgba(0, 0, 0, .54)"
+											height="24"
+											viewBox="0 0 24 24"
+											width="24"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+											/>
+											<path
+												d="M0-.25h24v24H0z"
+												fill="none"
+											/>
+										</svg>
+									</a>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="content">
+						<div class="box">
+							<div class="cbinfo">
+								<div id="gridcheckbox" class="md-checkbox">
+									<input
+										type="checkbox"
+										name="gridlines"
+										onclick="toggleGridDisp();"
+										id="gcb"
+									/><label for="gcb"> MGRS Overlay</label>
+								</div>
+								<div id="coordinateInfo"></div>
+							</div>
+							<div class="switchinfo">
+								<div class="style-inputs fillSwitch">
+									<section class="switch">
+										<div class="mdc-switch">
+											<input
+												type="checkbox"
+												id="fill"
+												class="mdc-switch__native-control"
+												checked=""
+											/>
+											<div class="mdc-switch__background">
+												<div
+													class="mdc-switch__knob"
+												></div>
+											</div>
+										</div>
+										<label
+											for="fill"
+											class="mdc-switch-label"
+											>Fill Symbol</label
+										>
+									</section>
+								</div>
+							</div>
+							<div class="downloadButtons"></div>
+						</div>
+						<p class="dragAndDropNotification">
+							Drag and drop the symbol on the map
+						</p>
+						<div class="panels">
+							<div
+								class="panel panel-2525c"
+								id="panel-1"
+								role="tabpanel"
+								aria-hidden="true"
+							></div>
+						</div>
+					</section>
+					<div class="option-inputs">
+						<section id="demo-text-field-wrapper">
+							<div
+								class="mdc-text-field"
+								data-mdc-auto-init="MDCTextField"
+							>
+								<input
+									type="text"
+									class="mdc-text-field__input"
+									id="uniqueDesignation"
+									maxlength="21"
+									size="30"
+								/>
+								<label
+									for="uniqueDesignation"
+									class="mdc-text-field__label"
+									>Unique Unit Designation</label
+								>
+							</div>
+							<p
+								id="my-text-field-helper-text"
+								class="mdc-text-field-helper-text"
+								style="display: block;"
+								aria-hidden="true"
+							>
+								A text modifier for units, equipment, and
+								installations that uniquely identifies a
+								particular symbol or track number. Identifies
+								acquisitions number when used with SIGINT
+								symbology.
+							</p>
+						</section>
+						<section id="demo-text-field-wrapper">
+							<div
+								class="mdc-text-field"
+								data-mdc-auto-init="MDCTextField"
+							>
+								<input
+									type="text"
+									class="mdc-text-field__input"
+									id="higherFormation"
+									maxlength="21"
+									size="30"
+								/>
+								<label
+									for="higherFormation"
+									class="mdc-text-field__label"
+									>Higher Formation</label
+								>
+							</div>
+							<p
+								id="my-text-field-helper-text"
+								class="mdc-text-field-helper-text"
+								style="display: block;"
+								aria-hidden="true"
+							>
+								A text modifier for units that indicates number
+								or title of higher echelon command (corps are
+								designated by Roman numerals).
+							</p>
+						</section>
+					</div>
+					<div class="style-inputs">
+						<section class="slider" width="50px">
+							<p style="color:#E5E8EC;font-size: 1.1rem;">
+								Symbol Outline Options
+							</p>
+							<p
+								class="mdc-text-field-helper-text"
+								style="opacity:1;color: rgba(0, 0, 0, .38);"
+							>
+								Width of outline, if any.
+							</p>
+							<div
+								id="outlineWidth"
+								class="mdc-slider mdc-slider--discrete"
+								tabindex="0"
+								role="slider"
+								aria-valuemin="0"
+								aria-valuemax="10"
+								aria-valuenow="0"
+								data-step="1"
+								aria-label="Select Value"
+								width="50%"
+							>
+								<div class="mdc-slider__track-container">
+									<div
+										class="mdc-slider__track"
+										style="transform: scaleX(0.2);"
+									></div>
+								</div>
+								<div
+									class="mdc-slider__thumb-container"
+									style="transform: translateX(66px) translateX(-50%);"
+								>
+									<div class="mdc-slider__pin">
+										<span
+											class="mdc-slider__pin-value-marker"
+											>2</span
+										>
+									</div>
+									<svg
+										class="mdc-slider__thumb"
+										width="21"
+										height="21"
+									>
+										<circle
+											cx="10.5"
+											cy="10.5"
+											r="7.875"
+										></circle>
+									</svg>
+
+									<div class="mdc-slider__focus-ring"></div>
+								</div>
+							</div>
+						</section>
+						<div class="select">
+							<div
+								id="outlineColor"
+								class="mdc-select"
+								role="listbox"
+							>
+								<div
+									class="mdc-select__surface mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation"
+									tabindex="0"
+									style="width: 90px; --mdc-ripple-fg-size:198px; --mdc-ripple-fg-scale:1.741; --mdc-ripple-fg-translate-start:8.66406px, -62.4063px; --mdc-ripple-fg-translate-end:66px, -71px;"
+								>
+									<div
+										class="mdc-select__label mdc-select__label--float-above"
+									>
+										Outline color
+									</div>
+									<div
+										class="mdc-select__selected-text"
+									></div>
+									<div class="mdc-select__bottom-line"></div>
+								</div>
+								<div
+									class="mdc-menu mdc-select__menu"
+									style="left: 1792.19px; top: 360.781px; transform-origin: center 392px 0px;"
+								>
+									<ul class="mdc-list mdc-menu__items">
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Aqua
+										</li>
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Blue
+										</li>
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Gray
+										</li>
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Green
+										</li>
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Maroon
+										</li>
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Red
+										</li>
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Yellow
+										</li>
+										<li
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											White
+										</li>
+										<li
+											id="rgb(239, 239, 239)"
+											class="mdc-list-item"
+											role="option"
+											tabindex="0"
+										>
+											Offwhite
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<p>
+							Create any military map symbol (MIL-STD 2525C) and
+							add custom presets if you choose. Drag the symbol
+							onto Google Maps and enable the MGRS overlay for
+							operations planning. Furthermore, you can download
+							the symbols individually for use in other
+							applications.
+						</p>
+						<div
+							class="contactIcons"
+							style="justify-content: space-evenly; display: flex; align-items: center; padding-bottom: 20px;"
+						>
+							<a
+								href="https://www.facebook.com/mgrsmapper/"
+								target="_blank"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="40"
+									height="40"
+									viewBox="0 0 510 510"
+								>
+									<title>
+										Follow MGRS Mapper on Facebook for
+										updates
+									</title>
+									<path
+										d="M459 0H51C23 0 0 23 0 51v408c0 28 23 51 51 51h408c28 0 51-23 51-51V51c0-28-23-51-51-51zm-25.5 51v76.5h-51c-15.3 0-25.5 10.2-25.5 25.5v51h76.5v76.5H357V459h-76.5V280.5h-51V204h51v-63.8A90.3 90.3 0 01369.8 51h63.7z"
+									></path>
+								</svg>
+							</a>
+							<a href="mailto:jamespistell@gmail.com">
+								<svg
+									viewBox="0 0 40 32"
+									aria-labelledby="akfsi-material-email-title"
+									id="si-material-email"
+									width="40px"
+									height="40px"
+								>
+									<title id="akfsi-material-email-title">
+										icon email
+									</title>
+									<path
+										d="M36 0H4C1.79 0 .02 1.79.02 4L0 28c0 2.21 1.79 4 4 4h32c2.21 0 4-1.79 4-4V4c0-2.21-1.79-4-4-4zm0 8L20 18 4 8V4l16 10L36 4v4z"
+									></path>
+								</svg>
+							</a>
+							<a
+								href="https://github.com/pistell/MGRS-Mapper"
+								target="_blank"
+							>
+								<svg
+									viewBox="0 0 22.436996459960938 21.97500228881836"
+									aria-labelledby="ctsi-dev-github_badge-title"
+									id="si-dev-github_badge"
+									width="40px"
+									height="40px"
+								>
+									<title id="ctsi-dev-github_badge-title">
+										icon github_badge
+									</title>
+									<path
+										d="M11.219 0C5.023 0 0 5.023 0 11.219c0 4.957 3.214 9.162 7.673 10.645.561.103.766-.244.766-.54 0-.267-.01-1.152-.016-2.088-3.12.678-3.779-1.323-3.779-1.323-.511-1.296-1.246-1.641-1.246-1.641-1.02-.696.077-.682.077-.682 1.126.078 1.72 1.156 1.72 1.156 1.001 1.715 2.627 1.219 3.265.931.102-.723.392-1.219.712-1.498-2.49-.283-5.11-1.246-5.11-5.545 0-1.226.438-2.225 1.154-3.011-.114-.285-.501-1.426.111-2.97 0 0 .941-.301 3.085 1.15.894-.25 1.854-.373 2.807-.377.953.004 1.913.129 2.809.379 2.14-1.453 3.083-1.15 3.083-1.15.613 1.545.227 2.685.112 2.969.719.785 1.153 1.785 1.153 3.011 0 4.31-2.624 5.259-5.123 5.537.404.348.761 1.03.761 2.076 0 1.5-.015 2.709-.015 3.079 0 .299.204.648.772.538 4.455-1.486 7.666-5.69 7.666-10.645 0-6.195-5.023-11.219-11.219-11.219z"
+									></path>
+								</svg>
+							</a>
+							<a
+								href="https://www.linkedin.com/in/jamespistell/"
+								target="_blank"
+							>
+								<svg
+									viewBox="0 0 514.3589477539062 491.5210266113281"
+									aria-labelledby="cdsi-zocial-linkedin-title"
+									id="si-zocial-linkedin"
+									width="40px"
+									height="40px"
+								>
+									<title id="cdsi-zocial-linkedin-title">
+										icon linkedin
+									</title>
+									<path
+										d="M0 57.096c0-16.55 5.793-30.203 17.377-40.96C28.962 5.379 44.022 0 62.557 0c18.204 0 32.934 5.296 44.187 15.888 11.585 10.922 17.377 25.155 17.377 42.698 0 15.888-5.626 29.127-16.88 39.719-11.585 10.922-26.81 16.384-45.676 16.384h-.497c-18.205 0-32.934-5.461-44.187-16.384C5.627 87.382.001 73.645.001 57.096zm6.454 434.425V159.869h110.22v331.652H6.454zm171.288 0c.662-99.959.993-177.576.993-232.852s-.331-88.209-.993-98.8h110.22v47.165l-.496.993h.496v-.993c23.831-36.74 57.096-55.11 99.794-55.11 38.063 0 68.68 12.661 91.85 37.982 23.168 25.32 34.753 62.474 34.753 111.46V491.52h-110.22V314.275c0-49.98-18.535-74.97-55.606-74.97-14.233 0-26.065 3.89-35.498 11.668-9.434 7.778-16.468 17.294-21.102 28.548-2.648 6.289-3.972 15.226-3.972 26.81V491.52h-110.22z"
+									></path>
+								</svg>
+							</a>
+							<a href="http://jamespistell.com" target="_blank">
+								<svg
+									viewBox="0 0 75 75"
+									aria-labelledby="kosi-foundation-web-title"
+									id="si-foundation-web"
+									width="40px"
+									height="40px"
+								>
+									<title id="kosi-foundation-web-title">
+										icon web
+									</title>
+									<path
+										d="M37.5 0C16.788 0 0 16.793 0 37.502 0 58.212 16.788 75 37.5 75S75 58.212 75 37.502C75 16.793 58.212 0 37.5 0zM10.397 42.469h5.752a37.328 37.328 0 0 0 8.826 19.569c-7.501-3.844-13.015-11.022-14.578-19.569zm5.752-9.939h-5.752c1.564-8.546 7.078-15.724 14.579-19.568a37.33 37.33 0 0 0-8.827 19.568zM32.53 55.559a27.468 27.468 0 0 1-6.313-13.089h6.313v13.089zm0-23.029h-6.313a27.474 27.474 0 0 1 6.313-13.088V32.53zm32.072 0h-5.751a37.328 37.328 0 0 0-8.825-19.567c7.499 3.845 13.013 11.023 14.576 19.567zM42.47 55.557V42.469h6.313a27.487 27.487 0 0 1-6.313 13.088zm0-23.027V19.441a27.468 27.468 0 0 1 6.313 13.089H42.47zm7.553 29.509a37.33 37.33 0 0 0 8.828-19.57h5.752c-1.563 8.548-7.078 15.726-14.58 19.57z"
+									></path>
+								</svg>
+							</a>
+						</div>
+						<p>Questions? Email me at JamesPistell@gmail.com</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="dist/js/app-footer.min.js"></script>
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=UA-126257594-1"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+			gtag("config", "UA-126257594-1", {
+				custom_map: {
+					dimension1: "unit",
+					dimension2: "affiliation",
+					dimension3: "hq_selected",
+					dimension4: "unit_size",
+					dimension5: "unique_unit_designation",
+					dimension6: "higher_formation",
+					dimension7: "symbol_outline_width",
+					dimension8: "symbol_outline_color",
+					dimension9: "search_string"
+				}
+			});
+		</script>
+	</body>
 </html>
