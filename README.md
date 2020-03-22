@@ -1,5 +1,9 @@
 # MGRS Mapper
 
+---
+
+🚨 As of 21MAR2020 I am stopping all development. My Army unit has been called up to fight the Coronavirus. I have no idea how long I will be gone for
+
 Drag and drop custom generated NATO military symbols onto Google Maps with an MGRS overlay.
 ![MGRS Mapper Screenshot](http://i.imgur.com/lozzh2W.jpg "MGRS Mapper Screenshot")
 
@@ -21,48 +25,48 @@ git clone https://github.com/pistell/MGRS-Mapper.git
 
 Open index.html in your text editor and replace Google Map's API key with your own
 
-
 ## Libraries, Plugins and Repositories Used
 
-+ [Material Design Components](https://material.io)
-+ [jQuery 3.3.1](http://jquery.com)
-+ [jQuery UI 1.11.1](http://jqueryui.com/)
-+ [jQuery UI Touch Punch 0.2.3](http://touchpunch.furf.com/)
-+ [milsymbol.js](https://github.com/spatialillusions/milsymbol)
-+ [USNG GMAP V3](https://github.com/mmdolbow/usng-gmap-v3)
-+ [Google Maps API V3](https://cloud.google.com/maps-platform/)
+-   [Material Design Components](https://material.io)
+-   [jQuery 3.3.1](http://jquery.com)
+-   [jQuery UI 1.11.1](http://jqueryui.com/)
+-   [jQuery UI Touch Punch 0.2.3](http://touchpunch.furf.com/)
+-   [milsymbol.js](https://github.com/spatialillusions/milsymbol)
+-   [USNG GMAP V3](https://github.com/mmdolbow/usng-gmap-v3)
+-   [Google Maps API V3](https://cloud.google.com/maps-platform/)
 
 ## TODO
 
-- [ ] Symbols resize differently when there is unit information input from user. Need to find a way to keep symbol shapes uniform
-- [x] Download buttons are in a terrible position. Using position: absolute and hiding them in CSS when screen gets too small. This needs to be fixed
-- [x] Mobile view for this sucks. Although it is not supposed to be used in mobile, there has to be some type of solution to enable jQuery UI to interact with onscreen touch
-- [ ] Add sidebar with popular choice icons (OP, Infantry, Cavalry, Enemy Infantry)
-- [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map. As of now, only SVG markers can be rotated.
-- [x] No-fill icon toggle
-- [x] Remove Bootstrap if it is not necessary
-- [x] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
-- [ ] Tidy up the icon presets, do we really need 15 Affiliation types? The entire Status drop down can be deleted.
-- [x] Icon preview window should be a fixed div to enable viewing when the user scrolls down
-- [ ] Icon generator sidebar should be able to be hidden on command to enable more screen for the map
-- [ ] MGRS grid lines might be too thin to notice, consider making them stand out more
-- [x] Minify JS
-- [x] Beautify HTML
-- [ ] Add sreeenshot functionality to the Google Maps canvas
-- [ ] Change Suspect on Affiliation to “Suspect/templated”
-- [x] Change Function ID to “Unit Type” and back to Function ID when Ground Installation is selected
-- [ ] Remove Status from drop down
-- [ ] Add project license.txt file
-- [ ] Create a function to clone a map marker via the info window
+-   [ ] Symbols resize differently when there is unit information input from user. Need to find a way to keep symbol shapes uniform
+-   [x] Download buttons are in a terrible position. Using position: absolute and hiding them in CSS when screen gets too small. This needs to be fixed
+-   [x] Mobile view for this sucks. Although it is not supposed to be used in mobile, there has to be some type of solution to enable jQuery UI to interact with onscreen touch
+-   [ ] Add sidebar with popular choice icons (OP, Infantry, Cavalry, Enemy Infantry)
+-   [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map. As of now, only SVG markers can be rotated.
+-   [x] No-fill icon toggle
+-   [x] Remove Bootstrap if it is not necessary
+-   [x] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
+-   [ ] Tidy up the icon presets, do we really need 15 Affiliation types? The entire Status drop down can be deleted.
+-   [x] Icon preview window should be a fixed div to enable viewing when the user scrolls down
+-   [ ] Icon generator sidebar should be able to be hidden on command to enable more screen for the map
+-   [ ] MGRS grid lines might be too thin to notice, consider making them stand out more
+-   [x] Minify JS
+-   [x] Beautify HTML
+-   [ ] Add sreeenshot functionality to the Google Maps canvas
+-   [ ] Change Suspect on Affiliation to “Suspect/templated”
+-   [x] Change Function ID to “Unit Type” and back to Function ID when Ground Installation is selected
+-   [ ] Remove Status from drop down
+-   [ ] Add project license.txt file
+-   [ ] Create a function to clone a map marker via the info window
 
 ## Built With
 
-* [Atom](https://atom.io/)
-* [Tears](http://i.imgur.com/pM1bLLX.jpg)
+-   [Atom](https://atom.io/)
+-   [Tears](http://i.imgur.com/pM1bLLX.jpg)
 
 ## Contributing
 
 After cloning down the repository, run the following command within the root of the project:
+
 ```sh
 npm install
 ```
@@ -80,7 +84,8 @@ If editing `js/milsymbol-unit-generator.js`, please be patient when saving as it
 Note: Do no edit anything within the `dist/` directory as it will be overwritten when building. All edits should be from within `src/`.
 
 ---
+
 ## Creators and Contributors
 
-+ [James Pistell](http://jamespistell.com)
-+ [Joseph Fusco](https://josephfus.co)
+-   [James Pistell](http://jamespistell.com)
+-   [Joseph Fusco](https://josephfus.co)
