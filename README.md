@@ -2,8 +2,6 @@
 
 ---
 
-🚨 As of 21MAR2020 I am stopping all development. My Army unit has been called up to fight the Coronavirus. I have no idea how long I will be gone for
-
 Drag and drop custom generated NATO military symbols onto Google Maps with an MGRS overlay.
 ![MGRS Mapper Screenshot](http://i.imgur.com/lozzh2W.jpg "MGRS Mapper Screenshot")
 
