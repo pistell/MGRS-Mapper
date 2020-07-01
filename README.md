@@ -1,5 +1,9 @@
 # MGRS Mapper
 
+### Update 01JUL2020
+
+The link in the description takes you to the updated version of this app. This repo contains the old version of the app. It will however work if you clone it and install it yourself.
+
 ---
 
 Drag and drop custom generated NATO military symbols onto Google Maps with an MGRS overlay.
@@ -7,7 +11,7 @@ Drag and drop custom generated NATO military symbols onto Google Maps with an MG
 
 ## Live Demo
 
-[Click Here See it in Action](http://mgrs-mapper.com/)
+[Click Here See it in Action](https://mgrs-mapper.com/app)
 
 ## About
 
@@ -32,29 +36,6 @@ Open index.html in your text editor and replace Google Map's API key with your o
 -   [milsymbol.js](https://github.com/spatialillusions/milsymbol)
 -   [USNG GMAP V3](https://github.com/mmdolbow/usng-gmap-v3)
 -   [Google Maps API V3](https://cloud.google.com/maps-platform/)
-
-## TODO
-
--   [ ] Symbols resize differently when there is unit information input from user. Need to find a way to keep symbol shapes uniform
--   [x] Download buttons are in a terrible position. Using position: absolute and hiding them in CSS when screen gets too small. This needs to be fixed
--   [x] Mobile view for this sucks. Although it is not supposed to be used in mobile, there has to be some type of solution to enable jQuery UI to interact with onscreen touch
--   [ ] Add sidebar with popular choice icons (OP, Infantry, Cavalry, Enemy Infantry)
--   [ ] Would be nice to have FabricJS integration. Need to find another way to be able to rotate and resize the symbols once they are on the map. As of now, only SVG markers can be rotated.
--   [x] No-fill icon toggle
--   [x] Remove Bootstrap if it is not necessary
--   [x] Unit search does not work unless user hits the magnifying glass, need to figure out why the input box event listener does not work
--   [ ] Tidy up the icon presets, do we really need 15 Affiliation types? The entire Status drop down can be deleted.
--   [x] Icon preview window should be a fixed div to enable viewing when the user scrolls down
--   [ ] Icon generator sidebar should be able to be hidden on command to enable more screen for the map
--   [ ] MGRS grid lines might be too thin to notice, consider making them stand out more
--   [x] Minify JS
--   [x] Beautify HTML
--   [ ] Add sreeenshot functionality to the Google Maps canvas
--   [ ] Change Suspect on Affiliation to “Suspect/templated”
--   [x] Change Function ID to “Unit Type” and back to Function ID when Ground Installation is selected
--   [ ] Remove Status from drop down
--   [ ] Add project license.txt file
--   [ ] Create a function to clone a map marker via the info window
 
 ## Built With
 
